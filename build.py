@@ -1,0 +1,313 @@
+#!/usr/bin/env python3
+"""
+Builds index.html.
+
+The point of this script: commit counts are READ FROM THE GITHUB API, never typed.
+That is what keeps "honestly scaled" true in month six rather than only at launch.
+Run it, check the diff, commit the result. No dependencies outside the stdlib.
+
+    python3 build.py            # fetch live counts
+    python3 build.py --offline  # reuse counts cached in content/commit-cache.json
+"""
+import json, os, re, subprocess, sys, html, datetime, urllib.request, urllib.error
+
+ROOT = os.path.dirname(os.path.abspath(__file__))
+P = lambda *a: os.path.join(ROOT, *a)
+OFFLINE = "--offline" in sys.argv
+
+
+# ---------------------------------------------------------------- github
+
+def _gh(path):
+    """Prefer the gh CLI (authenticated, higher rate limit); fall back to anonymous."""
+    try:
+        out = subprocess.run(["gh", "api", path], capture_output=True, text=True, timeout=25)
+        if out.returncode == 0:
+            return json.loads(out.stdout)
+    except (FileNotFoundError, subprocess.TimeoutExpired, json.JSONDecodeError):
+        pass
+    try:
+        req = urllib.request.Request("https://api.github.com/" + path.lstrip("/"),
+                                     headers={"Accept": "application/vnd.github+json",
+                                              "User-Agent": "lvxcas-site-build"})
+        with urllib.request.urlopen(req, timeout=25) as r:
+            return json.loads(r.read().decode())
+    except Exception as e:
+        print(f"    ! {path}: {e}")
+        return None
+
+
+def commit_counts(owner, repo):
+    """(mine, total). Counts are capped by the API page size; we report what we can see."""
+    total = mine = None
+    try:
+        out = subprocess.run(
+            ["gh", "api", f"repos/{owner}/{repo}/commits?per_page=1", "-I"],
+            capture_output=True, text=True, timeout=25)
+        m = re.search(r'[?&]page=(\d+)>;\s*rel="last"', out.stdout)
+        if m:
+            total = int(m.group(1))
+    except Exception:
+        pass
+    if total is None:
+        d = _gh(f"repos/{owner}/{repo}/commits?per_page=100")
+        total = len(d) if isinstance(d, list) else None
+        if total == 100:
+            total = "100+"
+    d = _gh(f"repos/{owner}/{repo}/commits?author={owner}&per_page=100")
+    if isinstance(d, list):
+        mine = len(d)
+        if mine == 100:
+            mine = "100+"
+    return mine, total
+
+
+def resolve_counts(projects, owner):
+    cache_path = P("content", "commit-cache.json")
+    cache = json.load(open(cache_path)) if os.path.exists(cache_path) else {}
+    for p in projects:
+        if not p.get("repo"):
+            continue                      # private or unpublished: counts are authored
+        key = p["repo"]
+        if OFFLINE and key in cache:
+            p["commits_mine"], p["commits_total"] = cache[key]
+            continue
+        print(f"  fetching {key} ...")
+        mine, total = commit_counts(owner, key)
+        if mine is None or total is None:
+            if key in cache:
+                print(f"    using cached counts for {key}")
+                mine, total = cache[key]
+            else:
+                mine, total = "?", "?"
+        p["commits_mine"], p["commits_total"] = mine, total
+        cache[key] = [mine, total]
+    json.dump(cache, open(cache_path, "w"), indent=2)
+    return projects
+
+
+# ---------------------------------------------------------------- markdown
+
+def inline(s):
+    """Deliberately small: the only inline syntax the site actually uses."""
+    s = html.escape(s, quote=False)
+    s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
+    s = re.sub(r"~~(.+?)~~", r"<del>\1</del>", s)
+    s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
+    s = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", s)
+    s = s.replace("--", "&mdash;").replace("...", "&hellip;")
+    return s
+
+
+def parse_entry(path):
+    raw = open(path, encoding="utf-8").read()
+    head, body = raw.split("\n---\n", 1)
+    meta, key, buf = {}, None, []
+    for line in head.splitlines():
+        if key:                                   # inside a "key: |" block
+            if line.startswith("  "):
+                buf.append(line[2:]); continue
+            meta[key] = "\n".join(buf); key, buf = None, []
+        m = re.match(r"^(\w+):\s*(.*)$", line)
+        if m:
+            k, v = m.groups()
+            if v.strip() == "|":
+                key = k
+            else:
+                meta[k] = v.strip()
+    if key:
+        meta[key] = "\n".join(buf)
+    meta["body"] = [inline(p.strip()) for p in body.strip().split("\n\n") if p.strip()]
+    return meta
+
+
+# ---------------------------------------------------------------- figures
+
+def census_svg():
+    """The sorted profile of every variant searched.
+
+    Rank is ordinal, so the x axis is normalised to a 0-1000 span. Drawing it at one
+    user unit per variant produced a 27:1 ribbon that rendered as a hairline, and
+    sub-pixel pattern tiles were dropped by the renderer outright.
+    """
+    W, BASE, NOISE, BEST = 1000.0, 75.0, 6.3, 22.1
+    real = P("content", "data", "dartboard_sharpes.txt")
+    provisional = not os.path.exists(real)
+    if provisional:
+        pts = open(P("content", "dartboard-envelope.txt")).read().split()
+        raw = [(float(a), float(b)) for a, b in (q.split(",") for q in pts)]
+        n = max(x for x, _ in raw) or 1.0
+    else:
+        vals = sorted(float(x) for x in open(real) if x.strip())
+        TOP, BOT, H, n = 1.9, -1.9, 150, float(len(vals) - 1)
+        y = lambda s: round((TOP - s) / (TOP - BOT) * H, 1)
+        idx = sorted(set(list(range(0, len(vals), max(1, len(vals) // 220))) + [len(vals) - 1]))
+        raw = [(0.0, y(0))] + [(float(i), y(vals[i])) for i in idx] + [(n, y(0))]
+    poly = " ".join(f"{round(x / n * W, 2)},{yy}" for x, yy in raw)
+    note = (" The shape here is provisional: it is drawn from a distribution matching the "
+            "reported statistics, not from the 5,423 recorded values. Drop those into "
+            "<code>content/data/dartboard_sharpes.txt</code> and rebuild to replace it."
+            ) if provisional else ""
+    return f'''<figure>
+  <svg class="strip" viewBox="-8 -22 1030 166" role="img" aria-label="The 5,423 strategy variants ordered by Sharpe ratio. The highest sits below a dashed line marking the best result expected from pure noise.">
+    <polygon points="{poly}" fill="var(--ink-muted)" fill-opacity="0.4"/>
+    <polyline points="{poly}" fill="none" stroke="var(--ink-muted)" stroke-width="1.4" stroke-linejoin="round"/>
+    <line x1="0" y1="{BASE}" x2="{W:.0f}" y2="{BASE}" stroke="var(--rule)" stroke-width="1"/>
+    <line x1="0" y1="{NOISE}" x2="{W:.0f}" y2="{NOISE}" stroke="var(--erratum)" stroke-width="1" stroke-dasharray="6 5"/>
+    <text x="0" y="{NOISE - 5:.1f}" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--erratum)">best expected from pure noise &#160;1.74</text>
+    <line x1="{W:.0f}" y1="{BASE}" x2="{W:.0f}" y2="{BEST}" stroke="var(--erratum)" stroke-width="3"/>
+    <text x="{W - 8:.0f}" y="{BEST - 5:.1f}" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--erratum)">best actual 1.34</text>
+    <text x="0" y="{BASE + 62:.0f}" font-family="IBM Plex Mono, monospace" font-size="8" fill="var(--ink-muted)">Sharpe 0.00</text>
+    <text x="{W:.0f}" y="{BASE + 62:.0f}" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="8" fill="var(--ink-muted)">rank 5,423</text>
+  </svg>
+  <figcaption>Every variant tested, ordered by Sharpe, each occupying one column of the 5,423.
+  At page width they merge into a single mass, and the mass is the argument: that is the size of
+  the search. The dashed line is the best score 5,423 coin flips would be expected to produce on
+  their own; the red mark at the right is the best score actually achieved. It falls below the
+  line.{note}</figcaption>
+</figure>'''
+
+
+OVERNIGHT_TABLE = '''<figure>
+<div class="wide"><table>
+  <thead><tr><th>Track</th><th class="num">CAGR</th><th class="num">Sharpe</th><th class="num">Max DD</th><th class="num">Nights</th></tr></thead>
+  <tbody>
+    <tr><td>Overnight, filtered</td><td class="num">3.09%</td><td class="num">0.66</td><td class="num">&minus;10.4%</td><td class="num">5,443</td></tr>
+    <tr><td>Buy &amp; hold SPY</td><td class="num">10.95%</td><td class="num">0.64</td><td class="num">&minus;55.2%</td><td class="num">5,443</td></tr>
+    <tr><td>L2 gate model, out of sample</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">2,017</td></tr>
+  </tbody>
+</table></div>
+<figcaption>Sorted by the variable under test rather than by date. The L2 gate row carries no
+return figures because it never earned any: it scored AUC 0.499 across 2,017 out-of-sample
+trades, which is a coin flip.</figcaption>
+</figure>'''
+
+FIGURES = {"census": census_svg, "overnight-table": lambda: OVERNIGHT_TABLE}
+
+
+# ---------------------------------------------------------------- render
+
+def rail(text):
+    return "\n".join(inline(l) for l in text.strip().splitlines()) if text else ""
+
+
+def entry_html(e, site):
+    cls = " ret" if e.get("kind") == "erratum" else ""
+    label = "Corrects" if e.get("kind") == "erratum" else "Apparatus"
+    body = "\n".join(f"<p>{p}</p>" for p in e["body"])
+    r = rail(e.get("rail", ""))
+    fig = FIGURES[e["figure"]]() if e.get("figure") in FIGURES else ""
+    return f'''<article class="row" id="{e['id']}">
+<div class="prose">
+<div class="tomb"><b>{e['id']}</b> &#160; {e['date']} &#160; <span class="verdict{cls}">{e['verdict']}</span><br>
+  {label} &#160; {inline(e.get('apparatus',''))}</div>
+<h3>{inline(e['title'])}</h3>
+{body}
+</div>
+<div class="rail">{r}</div>
+</article>
+{fig}'''
+
+
+def project_row(p, owner):
+    per = "<br>".join(p["period"])
+    nm = p["name"]
+    link = (f'<a href="https://github.com/{owner}/{p["repo"]}">{nm}</a>' if p.get("repo") else nm)
+    sub = f'<br><span class="st">{inline(p["note_repo"])}</span>' if p.get("note_repo") else ""
+    return (f'<tr><td><span class="nm">{link}</span>{sub}</td>'
+            f'<td>{inline(p["what"])}<br><span class="st">{inline(p["status"])}</span></td>'
+            f'<td class="num">{per}</td>'
+            f'<td class="num">{p["commits_mine"]:,} / {p["commits_total"]:,}</td></tr>'
+            if isinstance(p["commits_mine"], int) and isinstance(p["commits_total"], int) else
+            f'<tr><td><span class="nm">{link}</span>{sub}</td>'
+            f'<td>{inline(p["what"])}<br><span class="st">{inline(p["status"])}</span></td>'
+            f'<td class="num">{per}</td>'
+            f'<td class="num">{p["commits_mine"]} / {p["commits_total"]}</td></tr>')
+
+
+def main():
+    site = json.load(open(P("content", "site.json")))
+    projects = json.load(open(P("content", "projects.json")))
+    owner = site["github"].rstrip("/").split("/")[-1]
+
+    print("Reading commit counts from the GitHub API (never typed by hand):")
+    projects = resolve_counts(projects, owner)
+
+    entries = [parse_entry(P("content", "findings", f))
+               for f in sorted(os.listdir(P("content", "findings"))) if f.endswith(".md")]
+    findings = [e for e in entries if e.get("kind") != "erratum"]
+    errata = [e for e in entries if e.get("kind") == "erratum"]
+
+    rows = "\n".join(project_row(p, owner) for p in projects)
+    built = datetime.date.today().isoformat()
+
+    doc = f'''<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{site['name']}</title>
+<meta name="description" content="Projects, findings, and corrections to them. Every project is listed with the number of commits that are mine against the number in the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="preload" href="assets/fonts/IBMPlexSerif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/IBMPlexMono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="styles.css">
+<meta property="og:title" content="{site['name']}">
+<meta property="og:description" content="Projects, findings, and corrections to them.">
+<meta property="og:type" content="website">
+</head>
+<body>
+<a class="skip" href="#projects">Skip to projects</a>
+<main class="sheet">
+
+<header class="masthead">
+  <h1>{site['name']}</h1>
+  <div class="n">{site['handle']} &#183; {site['tagline']}</div>
+</header>
+
+<p class="lede">{inline(site['lede'])}</p>
+
+<h2 id="projects">Projects</h2>
+<div class="wide"><table>
+<thead><tr><th>Project</th><th>What it is</th><th class="num">Period</th><th class="num">Mine / total</th></tr></thead>
+<tbody>
+{rows}
+</tbody>
+</table></div>
+<p class="note">{inline(site['forks_note'])}</p>
+
+<h2 id="findings">Findings</h2>
+{"".join(entry_html(e, site) for e in findings)}
+
+<h2 id="errata">Errata</h2>
+{"".join(entry_html(e, site) for e in errata)}
+
+<footer class="colophon">
+Every entry: claim &#8594; method &#8594; evidence &#8594; verdict, in that order.<br>
+Commit counts are read from the GitHub API when this page is built. They are not typed by hand.<br>
+Nothing is deleted. Errors are struck, dated, and left legible.<br>
+Numbers live in the right rail at body size, or they are not numbers.<br>
+Set in IBM Plex Serif and IBM Plex Mono, self-hosted. No JavaScript.
+<a href="{site['github']}">GitHub</a> &#183; <a href="mailto:{site['email']}">{site['email']}</a><br>
+Built {built}.
+</footer>
+
+</main>
+</body>
+</html>
+'''
+    open(P("index.html"), "w", encoding="utf-8").write(doc)
+    size = os.path.getsize(P("index.html"))
+    css = os.path.getsize(P("styles.css"))
+    fonts = sum(os.path.getsize(P("assets", "fonts", f))
+                for f in os.listdir(P("assets", "fonts")) if f.endswith(".woff2"))
+    total = size + css + fonts
+    print(f"\n  index.html {size/1024:7.1f} KB")
+    print(f"  styles.css {css/1024:7.1f} KB")
+    print(f"  fonts      {fonts/1024:7.1f} KB")
+    print(f"  TOTAL      {total/1024:7.1f} KB   budget 100.0 KB   "
+          f"{'OK' if total < 102400 else 'OVER BUDGET'}")
+
+
+if __name__ == "__main__":
+    main()

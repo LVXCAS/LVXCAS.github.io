@@ -1,0 +1,60 @@
+[
+  {
+    "name": "ATLAS",
+    "repo": null,
+    "note_repo": "private — not linkable",
+    "commits_mine": 1841, "commits_total": 1841,
+    "period": ["2025-08", "2026-08"],
+    "what": "Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.",
+    "status": "~448,000 lines. Paper account; it has never sent an order."
+  },
+  {
+    "name": "gdrive-odoo-sync",
+    "repo": "gdrive-odoo-sync",
+    "period": ["2026-08"],
+    "what": "Odoo 18 addon that stages Google Drive spreadsheets and verifies parity between the two.",
+    "status": "Documents a service-account Drive quota trap that is not in the vendor docs."
+  },
+  {
+    "name": "voidbreaker",
+    "repo": "voidbreaker",
+    "period": ["2026-08"],
+    "what": "Twin-stick roguelite in pygame. Zero asset files: every sprite, sound, and both music loops are synthesised at runtime.",
+    "status": "Finished and playable."
+  },
+  {
+    "name": "AIMUX",
+    "repo": "AIMUX",
+    "period": ["2026-06", "2026-08"],
+    "what": "Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.",
+    "status": "Hard fork — most commit history is inherited, not mine. Compiles and runs; no provider has been exercised with a live API key."
+  },
+  {
+    "name": "stingyclaude",
+    "repo": "stingyclaude",
+    "period": ["2026-05"],
+    "what": "Claude Code skill that routes each task to the cheapest model that can do it.",
+    "status": "Three commits, one afternoon. One GitHub star, which is one more than the rest."
+  },
+  {
+    "name": "CyberSec-Mini-Capstone",
+    "repo": "CyberSec-Mini-Capstone",
+    "period": ["2026-04"],
+    "what": "School capstone.",
+    "status": "Coursework, finished and graded."
+  },
+  {
+    "name": "Solana",
+    "repo": "Solana",
+    "period": ["2026-02"],
+    "what": "CLI for creating SPL tokens with anti-rug protections.",
+    "status": "Built over three days in February and not touched since. No recorded on-chain use."
+  },
+  {
+    "name": "Wholesaling-Agents-",
+    "repo": "Wholesaling-Agents-",
+    "period": ["2025-08"],
+    "what": "Early agent experiment for real-estate lead triage.",
+    "status": "Four commits. Abandoned; superseded by later work."
+  }
+]

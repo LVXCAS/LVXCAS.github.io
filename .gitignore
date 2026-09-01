@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+.gstack/
+
+# Design research and working notes. Kept on disk, not published by default —
+# these are notes *about* the site, written in third person. Publish
+# research/DESIGN-SPEC.md deliberately if you want it public.
+research/
