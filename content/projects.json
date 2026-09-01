@@ -1,60 +1,156 @@
 [
   {
+    "name": "voidbreaker",
+    "repo": "voidbreaker",
+    "period": [
+      "2026-08"
+    ],
+    "what": "Twin-stick arcade roguelite in pygame-ce. Every sprite, glow, sound effect and both music loops are generated at runtime \u2014 the repository ships no image files and no audio files.",
+    "status": "Playable in a browser, compiled to WebAssembly with pygbag.",
+    "evidence": [
+      "9,335 lines of game code",
+      "3,295 lines of tests",
+      "255 test functions",
+      "playable in browser"
+    ],
+    "links": [
+      [
+        "Play it",
+        "https://lvxcas.github.io/voidbreaker/play/"
+      ],
+      [
+        "Write-up",
+        "https://lvxcas.github.io/voidbreaker/"
+      ]
+    ]
+  },
+  {
     "name": "ATLAS",
     "repo": null,
-    "note_repo": "private — not linkable",
-    "commits_mine": 1841, "commits_total": 1841,
-    "period": ["2025-08", "2026-08"],
+    "note_repo": "private \u2014 not linkable",
+    "commits_mine": 1841,
+    "commits_total": 1841,
+    "period": [
+      "2025-08",
+      "2026-08"
+    ],
     "what": "Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.",
-    "status": "~448,000 lines. Paper account; it has never sent an order."
+    "status": "Paper account. It has never sent an order.",
+    "evidence": [
+      "1,841 commits over 13 months",
+      "5 CI workflows",
+      "156 test files"
+    ]
   },
   {
     "name": "gdrive-odoo-sync",
     "repo": "gdrive-odoo-sync",
-    "period": ["2026-08"],
-    "what": "Odoo 18 addon that stages Google Drive spreadsheets and verifies parity between the two.",
-    "status": "Documents a service-account Drive quota trap that is not in the vendor docs."
-  },
-  {
-    "name": "voidbreaker",
-    "repo": "voidbreaker",
-    "period": ["2026-08"],
-    "what": "Twin-stick roguelite in pygame. Zero asset files: every sprite, sound, and both music loops are synthesised at runtime.",
-    "status": "Finished and playable."
+    "period": [
+      "2026-08"
+    ],
+    "what": "Odoo 18 addon that stages every Google Drive spreadsheet tab and verifies parity between Drive and Odoo.",
+    "status": "Documents a service-account Drive quota trap that is not in the vendor docs.",
+    "evidence": [
+      "23 test files"
+    ]
   },
   {
     "name": "AIMUX",
     "repo": "AIMUX",
-    "period": ["2026-06", "2026-08"],
+    "period": [
+      "2026-06",
+      "2026-08"
+    ],
     "what": "Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.",
-    "status": "Hard fork — most commit history is inherited, not mine. Compiles and runs; no provider has been exercised with a live API key."
+    "status": "A working fork, not a working product.",
+    "evidence": [
+      "!most commit history is inherited from the upstream fork",
+      "!never run against a live API key"
+    ]
   },
   {
-    "name": "stingyclaude",
-    "repo": "stingyclaude",
-    "period": ["2026-05"],
-    "what": "Claude Code skill that routes each task to the cheapest model that can do it.",
-    "status": "Three commits, one afternoon. One GitHub star, which is one more than the rest."
-  },
-  {
-    "name": "CyberSec-Mini-Capstone",
-    "repo": "CyberSec-Mini-Capstone",
-    "period": ["2026-04"],
-    "what": "School capstone.",
-    "status": "Coursework, finished and graded."
+    "name": "wholesale-os",
+    "repo": null,
+    "note_repo": "private \u2014 not linkable",
+    "commits_mine": 2,
+    "commits_total": 2,
+    "period": [
+      "2026-06",
+      "2026-08"
+    ],
+    "what": "Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.",
+    "status": "Two commits, but the data path was tested against the real county API.",
+    "evidence": [
+      "5 vitest suites",
+      "live-verified against the county ArcGIS API",
+      "!never deployed"
+    ]
   },
   {
     "name": "Solana",
     "repo": "Solana",
-    "period": ["2026-02"],
+    "period": [
+      "2026-02"
+    ],
     "what": "CLI for creating SPL tokens with anti-rug protections.",
-    "status": "Built over three days in February and not touched since. No recorded on-chain use."
+    "status": "Built over three days in February and not touched since. No recorded on-chain use.",
+    "evidence": [
+      "1,973 lines",
+      "!no tests"
+    ]
+  },
+  {
+    "name": "CyberSec-Mini-Capstone",
+    "repo": "CyberSec-Mini-Capstone",
+    "period": [
+      "2026-04"
+    ],
+    "what": "School capstone. Agent orchestration with a scored skills system.",
+    "status": "Coursework, finished and graded.",
+    "evidence": [
+      "6,239 lines",
+      "4 test files"
+    ]
+  },
+  {
+    "name": "peptide-shop",
+    "repo": null,
+    "note_repo": "private \u2014 not linkable",
+    "commits_mine": 2,
+    "commits_total": 2,
+    "period": [
+      "2026-05",
+      "2026-08"
+    ],
+    "what": "Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.",
+    "status": "Two commits. The compliance layer is the interesting part.",
+    "evidence": [
+      "compliance rules written before the store",
+      "!never deployed"
+    ]
+  },
+  {
+    "name": "stingyclaude",
+    "repo": "stingyclaude",
+    "period": [
+      "2026-05"
+    ],
+    "what": "Claude Code skill that routes each task to the cheapest model that can finish it.",
+    "status": "Three commits, one afternoon. One GitHub star, which is one more than the rest.",
+    "evidence": [
+      "40 lines"
+    ]
   },
   {
     "name": "Wholesaling-Agents-",
     "repo": "Wholesaling-Agents-",
-    "period": ["2025-08"],
+    "period": [
+      "2025-08"
+    ],
     "what": "Early agent experiment for real-estate lead triage.",
-    "status": "Four commits. Abandoned; superseded by later work."
+    "status": "Abandoned. Superseded by wholesale-os.",
+    "evidence": [
+      "!large, but committed in 4 bulk commits \u2014 read the history before the line count"
+    ]
   }
 ]

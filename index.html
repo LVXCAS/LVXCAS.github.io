@@ -22,22 +22,45 @@
   <div class="n">lvxcas &#183; projects, findings, and corrections to them</div>
 </header>
 
-<p class="lede">Everything below is listed with the number of commits that are mine against the number in the repository. Where a project is shared, or forked, or barely started, the count says so.</p>
+<p class="lede">I am a student. I build trading research systems, agent tooling, and games. Everything below says what it actually is: how much of it is mine, whether it was ever run, and what it failed to prove.</p>
 
-<h2 id="projects">Projects</h2>
-<div class="wide"><table class="projects">
-<thead><tr><th>Project</th><th>What it is</th><th class="num">Period</th><th class="num">Mine / total</th></tr></thead>
-<tbody>
-<tr><td data-label="Project"><span class="nm">ATLAS</span><br><span class="st">private — not linkable</span></td><td data-label="What it is">Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.<br><span class="st">~448,000 lines. Paper account; it has never sent an order.</span></td><td class="num" data-label="Period">2025-08&#8211;2026-08</td><td class="num" data-label="Commits mine / total">1,841 / 1,841</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/gdrive-odoo-sync">gdrive-odoo-sync</a></span></td><td data-label="What it is">Odoo 18 addon that stages Google Drive spreadsheets and verifies parity between the two.<br><span class="st">Documents a service-account Drive quota trap that is not in the vendor docs.</span></td><td class="num" data-label="Period">2026-08</td><td class="num" data-label="Commits mine / total">3 / 10</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/voidbreaker">voidbreaker</a></span></td><td data-label="What it is">Twin-stick roguelite in pygame. Zero asset files: every sprite, sound, and both music loops are synthesised at runtime.<br><span class="st">Finished and playable.</span></td><td class="num" data-label="Period">2026-08</td><td class="num" data-label="Commits mine / total">7 / 7</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/AIMUX">AIMUX</a></span></td><td data-label="What it is">Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.<br><span class="st">Hard fork — most commit history is inherited, not mine. Compiles and runs; no provider has been exercised with a live API key.</span></td><td class="num" data-label="Period">2026-06&#8211;2026-08</td><td class="num" data-label="Commits mine / total">8 / 100+</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/stingyclaude">stingyclaude</a></span></td><td data-label="What it is">Claude Code skill that routes each task to the cheapest model that can do it.<br><span class="st">Three commits, one afternoon. One GitHub star, which is one more than the rest.</span></td><td class="num" data-label="Period">2026-05</td><td class="num" data-label="Commits mine / total">3 / 3</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/CyberSec-Mini-Capstone">CyberSec-Mini-Capstone</a></span></td><td data-label="What it is">School capstone.<br><span class="st">Coursework, finished and graded.</span></td><td class="num" data-label="Period">2026-04</td><td class="num" data-label="Commits mine / total">66 / 66</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/Solana">Solana</a></span></td><td data-label="What it is">CLI for creating SPL tokens with anti-rug protections.<br><span class="st">Built over three days in February and not touched since. No recorded on-chain use.</span></td><td class="num" data-label="Period">2026-02</td><td class="num" data-label="Commits mine / total">50 / 50</td></tr>
-<tr><td data-label="Project"><span class="nm"><a href="https://github.com/LVXCAS/Wholesaling-Agents-">Wholesaling-Agents-</a></span></td><td data-label="What it is">Early agent experiment for real-estate lead triage.<br><span class="st">Four commits. Abandoned; superseded by later work.</span></td><td class="num" data-label="Period">2025-08</td><td class="num" data-label="Commits mine / total">2 / 4</td></tr>
-</tbody>
-</table></div>
+<section class="feature" aria-labelledby="vb">
+<div class="feature-in">
+  <p class="eyebrow">The one you can actually play</p>
+  <h2 id="vb">VOIDBREAKER</h2>
+  <p>A twin-stick arcade roguelite in pygame-ce. Survive escalating waves, draft perks
+  that compound, and break the Monolith every fifth wave.</p>
+  <p><strong>The repository contains no image files and no audio files.</strong> Every sprite is
+  drawn with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is
+  synthesised through <code>numpy</code> into a Surface, and the whole soundtrack and effects
+  bank is DSP written from scratch and handed to <code>pygame.mixer</code> as raw sample
+  buffers. Nothing on screen was drawn by hand or loaded from disk.</p>
+  <div class="shots"><figure><img src="assets/img/combat.webp" alt="Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw." loading="lazy" width="900" height="563"><figcaption>Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw.</figcaption></figure><figure><img src="assets/img/boss-monolith.webp" alt="The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces." loading="lazy" width="900" height="563"><figcaption>The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces.</figcaption></figure><figure><img src="assets/img/launch.webp" alt="The launch screen. No font files either: the type is drawn." loading="lazy" width="900" height="563"><figcaption>The launch screen. No font files either: the type is drawn.</figcaption></figure></div>
+  <p>It runs in a browser as the same Python compiled to WebAssembly with pygbag. Browsers
+  have no hardware SDL renderer, so the web build starts with bloom and scanlines off; the
+  desktop build is the faster one.</p>
+  <div class="vbstats">
+    <div><b>0</b><span>asset files</span></div>
+    <div><b>9,335</b><span>lines of game</span></div>
+    <div><b>3,295</b><span>lines of tests</span></div>
+    <div><b>255</b><span>test functions</span></div>
+  </div>
+  <a class="play" href="https://lvxcas.github.io/voidbreaker/play/">Play it in your browser &#8594;</a>
+</div>
+</section>
+
+<h2 id="projects">Everything else</h2>
+<div class="plist">
+<div class="proj"><div class="proj-main"><h3>ATLAS <span class="priv">private — not linkable</span></h3><p>Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.<span class="st">Paper account. It has never sent an order.</span></p><ul class="ev"><li>1,841 commits over 13 months</li><li>5 CI workflows</li><li>156 test files</li></ul></div><div class="proj-meta">2025-08&#8211;2026-08&#10;1,841 / 1,841 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/gdrive-odoo-sync">gdrive-odoo-sync</a></h3><p>Odoo 18 addon that stages every Google Drive spreadsheet tab and verifies parity between Drive and Odoo.<span class="st">Documents a service-account Drive quota trap that is not in the vendor docs.</span></p><ul class="ev"><li>23 test files</li></ul></div><div class="proj-meta">2026-08&#10;3 / 10 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/AIMUX">AIMUX</a></h3><p>Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.<span class="st">A working fork, not a working product.</span></p><ul class="ev"><li class="caveat">most commit history is inherited from the upstream fork</li><li class="caveat">never run against a live API key</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;8 / 100+ commits</div></div>
+<div class="proj"><div class="proj-main"><h3>wholesale-os <span class="priv">private — not linkable</span></h3><p>Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.<span class="st">Two commits, but the data path was tested against the real county API.</span></p><ul class="ev"><li>5 vitest suites</li><li>live-verified against the county ArcGIS API</li><li class="caveat">never deployed</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;2 / 2 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Solana">Solana</a></h3><p>CLI for creating SPL tokens with anti-rug protections.<span class="st">Built over three days in February and not touched since. No recorded on-chain use.</span></p><ul class="ev"><li>1,973 lines</li><li class="caveat">no tests</li></ul></div><div class="proj-meta">2026-02&#10;50 / 50 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/CyberSec-Mini-Capstone">CyberSec-Mini-Capstone</a></h3><p>School capstone. Agent orchestration with a scored skills system.<span class="st">Coursework, finished and graded.</span></p><ul class="ev"><li>6,239 lines</li><li>4 test files</li></ul></div><div class="proj-meta">2026-04&#10;66 / 66 commits</div></div>
+<div class="proj"><div class="proj-main"><h3>peptide-shop <span class="priv">private — not linkable</span></h3><p>Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.<span class="st">Two commits. The compliance layer is the interesting part.</span></p><ul class="ev"><li>compliance rules written before the store</li><li class="caveat">never deployed</li></ul></div><div class="proj-meta">2026-05&#8211;2026-08&#10;2 / 2 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/stingyclaude">stingyclaude</a></h3><p>Claude Code skill that routes each task to the cheapest model that can finish it.<span class="st">Three commits, one afternoon. One GitHub star, which is one more than the rest.</span></p><ul class="ev"><li>40 lines</li></ul></div><div class="proj-meta">2026-05&#10;3 / 3 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Wholesaling-Agents-">Wholesaling-Agents-</a></h3><p>Early agent experiment for real-estate lead triage.<span class="st">Abandoned. Superseded by wholesale-os.</span></p><ul class="ev"><li class="caveat">large, but committed in 4 bulk commits — read the history before the line count</li></ul></div><div class="proj-meta">2025-08&#10;2 / 4 commits</div></div>
+</div>
 <p class="note">Three other repositories on my GitHub account — <code>odoo</code>, <code>dexter-</code>, and <code>AIdvisor-Presidential-AI-Challenge-25-26</code> — are forks of other people's work. They are not mine and are not listed above.</p>
 
 <h2 id="findings">Findings</h2>

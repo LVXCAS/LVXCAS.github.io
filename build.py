@@ -213,19 +213,80 @@ def _n(v):
     return f"{v:,}" if isinstance(v, int) else str(v)
 
 
-def project_row(p, owner):
-    per = "&#8211;".join(p["period"])   # single string: wraps on desktop, joins cleanly on mobile
-    link = (f'<a href="https://github.com/{owner}/{p["repo"]}">{p["name"]}</a>'
+def project_block(p, owner):
+    """One project. The right column carries only measured quantities; if a project
+    has none worth stating, it stays empty, and the empty column is the admission."""
+    per = "&#8211;".join(p["period"])
+    name = (f'<a href="https://github.com/{owner}/{p["repo"]}">{p["name"]}</a>'
             if p.get("repo") else p["name"])
-    sub = f'<br><span class="st">{inline(p["note_repo"])}</span>' if p.get("note_repo") else ""
-    counts = f'{_n(p["commits_mine"])} / {_n(p["commits_total"])}'
-    return (f'<tr>'
-            f'<td data-label="Project"><span class="nm">{link}</span>{sub}</td>'
-            f'<td data-label="What it is">{inline(p["what"])}'
-            f'<br><span class="st">{inline(p["status"])}</span></td>'
-            f'<td class="num" data-label="Period">{per}</td>'
-            f'<td class="num" data-label="Commits mine / total">{counts}</td>'
-            f'</tr>')
+    priv = f' <span class="priv">{inline(p["note_repo"])}</span>' if p.get("note_repo") else ""
+
+    meta = [per]
+    if p.get("commits_mine") is not None and p.get("commits_total") is not None:
+        meta.append(f'{_n(p["commits_mine"])} / {_n(p["commits_total"])} commits')
+
+    ev = ""
+    if p.get("evidence"):
+        # A leading "!" marks a caveat. A tick means verified-positive, so an
+        # absence ("no tests") must not wear one.
+        ev = ('<ul class="ev">' + "".join(
+            (f'<li class="caveat">{inline(e[1:].strip())}</li>' if e.startswith("!")
+             else f"<li>{inline(e)}</li>")
+            for e in p["evidence"]) + "</ul>")
+    links = ""
+    if p.get("links"):
+        links = ('<div class="plinks">'
+                 + "".join(f'<a href="{u}">{inline(t)}</a>' for t, u in p["links"])
+                 + "</div>")
+
+    return (f'<div class="proj">'
+            f'<div class="proj-main">'
+            f'<h3>{name}{priv}</h3>'
+            f'<p>{inline(p["what"])}<span class="st">{inline(p["status"])}</span></p>'
+            f'{ev}{links}'
+            f'</div>'
+            f'<div class="proj-meta">{"&#10;".join(meta)}</div>'
+            f'</div>')
+
+
+def feature_voidbreaker():
+    """The one coloured surface on the site. Palette values are read out of
+    voidbreaker/game/config.py, so the section is literally the colour of its subject."""
+    shots = [
+        ("combat.webp", "Wave combat. Enemies, bullets, glow and trails are all drawn "
+                        "per frame with pygame.draw and gfxdraw."),
+        ("boss-monolith.webp", "The Monolith, the wave-five boss. Nebulae are synthesised "
+                               "through numpy into Surfaces."),
+        ("launch.webp", "The launch screen. No font files either: the type is drawn."),
+    ]
+    figs = "".join(
+        f'<figure><img src="assets/img/{f}" alt="{html.escape(c)}" loading="lazy" '
+        f'width="900" height="563"><figcaption>{c}</figcaption></figure>'
+        for f, c in shots)
+    return f'''<section class="feature" aria-labelledby="vb">
+<div class="feature-in">
+  <p class="eyebrow">The one you can actually play</p>
+  <h2 id="vb">VOIDBREAKER</h2>
+  <p>A twin-stick arcade roguelite in pygame-ce. Survive escalating waves, draft perks
+  that compound, and break the Monolith every fifth wave.</p>
+  <p><strong>The repository contains no image files and no audio files.</strong> Every sprite is
+  drawn with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is
+  synthesised through <code>numpy</code> into a Surface, and the whole soundtrack and effects
+  bank is DSP written from scratch and handed to <code>pygame.mixer</code> as raw sample
+  buffers. Nothing on screen was drawn by hand or loaded from disk.</p>
+  <div class="shots">{figs}</div>
+  <p>It runs in a browser as the same Python compiled to WebAssembly with pygbag. Browsers
+  have no hardware SDL renderer, so the web build starts with bloom and scanlines off; the
+  desktop build is the faster one.</p>
+  <div class="vbstats">
+    <div><b>0</b><span>asset files</span></div>
+    <div><b>9,335</b><span>lines of game</span></div>
+    <div><b>3,295</b><span>lines of tests</span></div>
+    <div><b>255</b><span>test functions</span></div>
+  </div>
+  <a class="play" href="https://lvxcas.github.io/voidbreaker/play/">Play it in your browser &#8594;</a>
+</div>
+</section>'''
 
 
 def main():
@@ -241,7 +302,9 @@ def main():
     findings = [e for e in entries if e.get("kind") != "erratum"]
     errata = [e for e in entries if e.get("kind") == "erratum"]
 
-    rows = "\n".join(project_row(p, owner) for p in projects)
+    # voidbreaker gets the feature plate, so it is not repeated in the list below it
+    blocks = "\n".join(project_block(p, owner) for p in projects
+                       if p["name"] != "voidbreaker")
     built = datetime.date.today().isoformat()
 
     doc = f'''<!doctype html>
@@ -270,13 +333,12 @@ def main():
 
 <p class="lede">{inline(site['lede'])}</p>
 
-<h2 id="projects">Projects</h2>
-<div class="wide"><table class="projects">
-<thead><tr><th>Project</th><th>What it is</th><th class="num">Period</th><th class="num">Mine / total</th></tr></thead>
-<tbody>
-{rows}
-</tbody>
-</table></div>
+{feature_voidbreaker()}
+
+<h2 id="projects">Everything else</h2>
+<div class="plist">
+{blocks}
+</div>
 <p class="note">{inline(site['forks_note'])}</p>
 
 <h2 id="findings">Findings</h2>
@@ -304,12 +366,20 @@ Built {built}.
     css = os.path.getsize(P("styles.css"))
     fonts = sum(os.path.getsize(P("assets", "fonts", f))
                 for f in os.listdir(P("assets", "fonts")) if f.endswith(".woff2"))
-    total = size + css + fonts
-    print(f"\n  index.html {size/1024:7.1f} KB")
-    print(f"  styles.css {css/1024:7.1f} KB")
-    print(f"  fonts      {fonts/1024:7.1f} KB")
-    print(f"  TOTAL      {total/1024:7.1f} KB   budget 100.0 KB   "
-          f"{'OK' if total < 102400 else 'OVER BUDGET'}")
+    imgdir = P("assets", "img")
+    imgs = (sum(os.path.getsize(os.path.join(imgdir, f)) for f in os.listdir(imgdir))
+            if os.path.isdir(imgdir) else 0)
+    first = size + css + fonts          # images are lazy, below the fold
+    total = first + imgs
+    BUDGET = 250 * 1024                 # 250KB Club tier; see research/DESIGN-SPEC.md
+    print(f"\n  index.html   {size/1024:7.1f} KB")
+    print(f"  styles.css   {css/1024:7.1f} KB")
+    print(f"  fonts        {fonts/1024:7.1f} KB")
+    print(f"  ---------------------")
+    print(f"  first load   {first/1024:7.1f} KB   (what a reader waits for)")
+    print(f"  images       {imgs/1024:7.1f} KB   (lazy, below the fold)")
+    print(f"  TOTAL        {total/1024:7.1f} KB   budget {BUDGET/1024:.0f} KB   "
+          f"{'OK' if total < BUDGET else 'OVER BUDGET'}")
 
 
 if __name__ == "__main__":

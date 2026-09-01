@@ -130,3 +130,82 @@ td .st{color:var(--ink-muted);font-size:.94rem}
   table.projects td[data-label="What it is"]::before{display:none}
   table.projects td[data-label="Project"] .nm{font-size:1.05rem}
 }
+
+/* ------------------------------------------------------------------ projects
+   The four-column table read as a spreadsheet. Each project is now a block with
+   room: name and links left, description and evidence right. */
+.plist{display:flex;flex-direction:column;gap:0;margin-top:8px}
+.proj{display:grid;grid-template-columns:var(--prose) var(--gap) var(--rail);
+  padding:22px 0;border-top:1px solid var(--rule)}
+.proj:last-child{border-bottom:1px solid var(--rule)}
+.proj-main{grid-column:1}
+.proj-meta{grid-column:3;font-family:var(--mono);font-size:1rem;line-height:1.6;
+  font-variant-numeric:tabular-nums;color:var(--ink-muted);white-space:pre-line}
+.proj h3{font-family:var(--mono);font-size:1.0625rem;font-weight:500;margin:0 0 6px;
+  letter-spacing:0}
+.proj h3 a{text-decoration-color:var(--rule)}
+.proj .priv{font-family:var(--serif);font-style:italic;font-weight:400;
+  font-size:.94rem;color:var(--ink-muted);letter-spacing:0}
+.proj p{margin:0 0 6px;max-width:56ch}
+.proj .st{display:block;color:var(--ink-muted);font-size:.94rem;max-width:56ch}
+/* Evidence: only things a reader can go and check. */
+.ev{margin:10px 0 0;padding:0;list-style:none;display:flex;flex-wrap:wrap;gap:4px 18px}
+.ev li{font-family:var(--mono);font-size:.8125rem;color:var(--ink-muted);
+  font-variant-numeric:tabular-nums}
+.ev li::before{content:"\2713\00a0";color:var(--ink)}
+.plinks{margin-top:10px;display:flex;gap:18px;font-family:var(--mono);font-size:.875rem}
+
+/* ------------------------------------------------------------------- feature
+   One full-bleed plate. The palette below is not a decorative choice: these are
+   the literal RGB values out of voidbreaker/game/config.py. The section is the
+   colour of its own subject, and it is the only coloured surface on the site. */
+.feature{
+  --vb-bg:#07060F; --vb-deep:#03030A; --vb-line:#342C74;
+  --vb-cyan:#78F4FF; --vb-mint:#A8FFE8; --vb-pink:#FF5C80; --vb-amber:#FFB04A;
+  --vb-text:#E8FDFF; --vb-dim:#A8B8D8;
+  position:relative;z-index:1;
+  margin:64px 0 64px calc(50% - 50vw);width:100vw;
+  background:var(--vb-bg);color:var(--vb-text);
+  padding:56px 0 48px;border-top:1px solid var(--vb-line);border-bottom:1px solid var(--vb-line)}
+.feature-in{max-width:calc(var(--prose) + var(--gap) + var(--rail) + 96px);
+  margin:0 auto;padding:0 48px}
+.feature .eyebrow{font-family:var(--mono);font-size:.8125rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--vb-cyan);margin:0 0 10px}
+.feature h2{font-family:var(--mono);font-size:2.074rem;font-weight:500;letter-spacing:.02em;
+  margin:0 0 14px;color:var(--vb-text)}
+.feature p{max-width:60ch;color:var(--vb-dim);margin:0 0 14px}
+.feature strong{color:var(--vb-text);font-weight:400}
+.feature a{color:var(--vb-cyan);text-decoration-color:var(--vb-line)}
+.feature a:hover{text-decoration-color:var(--vb-cyan)}
+.feature a:focus-visible{outline:2px solid var(--vb-cyan);outline-offset:3px}
+.shots{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0 20px}
+.shots img{width:100%;height:auto;display:block;border:1px solid var(--vb-line);
+  background:var(--vb-deep)}
+.shots figcaption{font-family:var(--mono);font-size:.75rem;color:var(--vb-dim);
+  margin-top:7px;font-style:normal;line-height:1.45}
+.shots figure{margin:0;grid-column:auto}
+.vbstats{display:flex;flex-wrap:wrap;gap:0 44px;margin:22px 0 0;padding:18px 0 0;
+  border-top:1px solid var(--vb-line);font-family:var(--mono);font-variant-numeric:tabular-nums}
+.vbstats div{display:flex;flex-direction:column;gap:2px}
+.vbstats b{font-weight:500;font-size:1.44rem;color:var(--vb-cyan);letter-spacing:-.01em}
+.vbstats span{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--vb-dim)}
+.play{display:inline-block;margin-top:24px;font-family:var(--mono);font-size:1rem;
+  color:var(--vb-bg);background:var(--vb-cyan);padding:11px 20px;text-decoration:none;
+  border:1px solid var(--vb-cyan);
+  transition:background 140ms cubic-bezier(.4,0,.2,1),color 140ms cubic-bezier(.4,0,.2,1)}
+.play:hover{background:transparent;color:var(--vb-cyan)}
+.play:focus-visible{outline:2px solid var(--vb-mint);outline-offset:3px}
+
+@media (max-width:900px){
+  .proj{display:block;padding:18px 0}
+  .proj-meta{margin-top:10px;border-left:2px solid var(--rule);padding-left:14px}
+  .feature{margin-left:calc(50% - 50vw);padding:36px 0 32px}
+  .feature-in{padding:0 20px;max-width:none}
+  .feature h2{font-size:1.728rem}
+  .shots{grid-template-columns:1fr;gap:18px}
+  .vbstats{gap:0 28px}
+  .vbstats b{font-size:1.2rem}
+}
+/* A tick means "go and check this". An absence or a warning gets its own mark. */
+.ev li.caveat::before{content:"\2013\00a0";color:var(--erratum)}
+.ev li.caveat{color:var(--ink-muted)}
