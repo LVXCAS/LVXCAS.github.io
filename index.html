@@ -30,12 +30,13 @@
   <h2 id="vb">VOIDBREAKER</h2>
   <p>A twin-stick arcade roguelite in pygame-ce. Survive escalating waves, draft perks
   that compound, and break the Monolith every fifth wave.</p>
-  <p><strong>The repository contains no image files and no audio files.</strong> Every sprite is
-  drawn with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is
-  synthesised through <code>numpy</code> into a Surface, and the whole soundtrack and effects
-  bank is DSP written from scratch and handed to <code>pygame.mixer</code> as raw sample
-  buffers. Nothing on screen was drawn by hand or loaded from disk.</p>
-  <div class="shots"><figure><img src="assets/img/combat.webp" alt="Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw." loading="lazy" width="900" height="563"><figcaption>Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw.</figcaption></figure><figure><img src="assets/img/boss-monolith.webp" alt="The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces." loading="lazy" width="900" height="563"><figcaption>The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces.</figcaption></figure><figure><img src="assets/img/launch.webp" alt="The launch screen. No font files either: the type is drawn." loading="lazy" width="900" height="563"><figcaption>The launch screen. No font files either: the type is drawn.</figcaption></figure></div>
+  <p><strong>The game ships no art, no audio and no font files.</strong> Every sprite is drawn
+  with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is synthesised
+  through <code>numpy</code> into a Surface, the soundtrack and effects bank is DSP written from
+  scratch and handed to <code>pygame.mixer</code> as raw sample buffers, and the type is set in
+  whatever monospace face the machine already has. The screenshots below are the only images in
+  the repository, and the game never loads them.</p>
+  <div class="shots"><figure><img src="assets/img/combat.webp" alt="Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw." loading="lazy" width="900" height="507"><figcaption>Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw.</figcaption></figure><figure><img src="assets/img/boss-monolith.webp" alt="The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces." loading="lazy" width="900" height="507"><figcaption>The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces.</figcaption></figure><figure><img src="assets/img/launch.webp" alt="The launch screen. No font files either — the type is set in a monospace face the machine already has." loading="lazy" width="900" height="507"><figcaption>The launch screen. No font files either — the type is set in a monospace face the machine already has.</figcaption></figure></div>
   <p>It runs in a browser as the same Python compiled to WebAssembly with pygbag. Browsers
   have no hardware SDL renderer, so the web build starts with bloom and scanlines off; the
   desktop build is the faster one.</p>
@@ -51,17 +52,17 @@
 
 <h2 id="projects">Everything else</h2>
 <div class="plist">
-<div class="proj"><div class="proj-main"><h3>ATLAS <span class="priv">private — not linkable</span></h3><p>Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.<span class="st">Paper account. It has never sent an order.</span></p><ul class="ev"><li>1,841 commits over 13 months</li><li>5 CI workflows</li><li>156 test files</li></ul></div><div class="proj-meta">2025-08&#8211;2026-08&#10;1,841 / 1,841 commits</div></div>
+<div class="proj"><div class="proj-main"><h3>ATLAS <span class="priv">private</span></h3><p>Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.<span class="st">Paper account. It has never sent an order.</span></p><ul class="ev"><li>1,841 commits over 12 months</li><li>5 CI workflows</li><li>156 test files</li></ul></div><div class="proj-meta">2025-08&#8211;2026-08&#10;1,841 / 1,841 commits</div></div>
 <div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/gdrive-odoo-sync">gdrive-odoo-sync</a></h3><p>Odoo 18 addon that stages every Google Drive spreadsheet tab and verifies parity between Drive and Odoo.<span class="st">Documents a service-account Drive quota trap that is not in the vendor docs.</span></p><ul class="ev"><li>23 test files</li></ul></div><div class="proj-meta">2026-08&#10;3 / 10 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/AIMUX">AIMUX</a></h3><p>Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.<span class="st">A working fork, not a working product.</span></p><ul class="ev"><li class="caveat">most commit history is inherited from the upstream fork</li><li class="caveat">never run against a live API key</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;8 / 100+ commits</div></div>
-<div class="proj"><div class="proj-main"><h3>wholesale-os <span class="priv">private — not linkable</span></h3><p>Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.<span class="st">Two commits, but the data path was tested against the real county API.</span></p><ul class="ev"><li>5 vitest suites</li><li>live-verified against the county ArcGIS API</li><li class="caveat">never deployed</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;2 / 2 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/AIMUX">AIMUX</a></h3><p>Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.<span class="st">A working fork, not a working product.</span></p><ul class="ev"><li class="caveat">most commit history is inherited from the upstream fork</li><li class="caveat">never run against a live API key</li><li class="caveat">&quot;compiles and runs&quot; is my own claim, not a published build</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;8 / 7,907 commits</div></div>
+<div class="proj"><div class="proj-main"><h3>wholesale-os <span class="priv">private — not linkable</span></h3><p>Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.<span class="st">Two commits, but the data path was tested against the real county API.</span></p><ul class="ev"><li class="caveat">private, so none of this is checkable from outside</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;2 / 2 commits</div></div>
 <div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Solana">Solana</a></h3><p>CLI for creating SPL tokens with anti-rug protections.<span class="st">Built over three days in February and not touched since. No recorded on-chain use.</span></p><ul class="ev"><li>1,973 lines</li><li class="caveat">no tests</li></ul></div><div class="proj-meta">2026-02&#10;50 / 50 commits</div></div>
 <div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/CyberSec-Mini-Capstone">CyberSec-Mini-Capstone</a></h3><p>School capstone. Agent orchestration with a scored skills system.<span class="st">Coursework, finished and graded.</span></p><ul class="ev"><li>6,239 lines</li><li>4 test files</li></ul></div><div class="proj-meta">2026-04&#10;66 / 66 commits</div></div>
-<div class="proj"><div class="proj-main"><h3>peptide-shop <span class="priv">private — not linkable</span></h3><p>Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.<span class="st">Two commits. The compliance layer is the interesting part.</span></p><ul class="ev"><li>compliance rules written before the store</li><li class="caveat">never deployed</li></ul></div><div class="proj-meta">2026-05&#8211;2026-08&#10;2 / 2 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/stingyclaude">stingyclaude</a></h3><p>Claude Code skill that routes each task to the cheapest model that can finish it.<span class="st">Three commits, one afternoon. One GitHub star, which is one more than the rest.</span></p><ul class="ev"><li>40 lines</li></ul></div><div class="proj-meta">2026-05&#10;3 / 3 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Wholesaling-Agents-">Wholesaling-Agents-</a></h3><p>Early agent experiment for real-estate lead triage.<span class="st">Abandoned. Superseded by wholesale-os.</span></p><ul class="ev"><li class="caveat">large, but committed in 4 bulk commits — read the history before the line count</li></ul></div><div class="proj-meta">2025-08&#10;2 / 4 commits</div></div>
+<div class="proj"><div class="proj-main"><h3>peptide-shop <span class="priv">private — not linkable</span></h3><p>Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.<span class="st">Two commits. The compliance layer is the interesting part.</span></p><ul class="ev"><li class="caveat">private, so none of this is checkable from outside</li></ul></div><div class="proj-meta">2026-05&#8211;2026-08&#10;2 / 2 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/stingyclaude">stingyclaude</a></h3><p>Claude Code skill that routes each task to the cheapest model that can finish it.<span class="st">Three commits, one afternoon. It has one GitHub star.</span></p><ul class="ev"><li>40 lines</li></ul></div><div class="proj-meta">2026-05&#10;3 / 3 commits</div></div>
+<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Wholesaling-Agents-">Wholesaling-Agents-</a></h3><p>Early agent experiment for real-estate lead triage.<span class="st">Abandoned. Superseded by wholesale-os.</span></p><ul class="ev"><li class="caveat">about 150,000 lines, but 4 bulk commits. Read the history, not the line count.</li></ul></div><div class="proj-meta">2025-08&#10;4 / 4 commits</div></div>
 </div>
-<p class="note">Three other repositories on my GitHub account — <code>odoo</code>, <code>dexter-</code>, and <code>AIdvisor-Presidential-AI-Challenge-25-26</code> — are forks of other people's work. They are not mine and are not listed above.</p>
+<p class="note">Three other repositories on my GitHub account (<code>odoo</code>, <code>dexter-</code> and <code>AIdvisor-Presidential-AI-Challenge-25-26</code>) are forks of other people&#x27;s work and are not mine. One more, <code>ATLAS-Presidential-AI-Challenge</code>, is a competition entry I built with a teammate; roughly half of its 59 commits are mine.</p>
 
 <h2 id="findings">Findings</h2>
 <article class="row" id="001">
@@ -69,7 +70,7 @@
 <div class="tomb"><b>001</b> &#160; 2026-08 &#160; <span class="verdict">FOUND NOTHING</span><br>
   Apparatus &#160; ATLAS / atlas-dartboard</div>
 <h3>5,423 strategies, and the best one is worse than luck</h3>
-<p>I ran every variant through Deflated Sharpe, PBO/CSCV, White's Reality Check, Hansen's SPA, and BH–FDR on SPY, 1993 to 2026.</p>
+<p>I ran every variant through Deflated Sharpe, PBO/CSCV, White&#x27;s Reality Check, Hansen&#x27;s SPA, and BH–FDR on SPY, 1993 to 2026.</p>
 <p>The best variant scored 1.34. Searching 5,423 times through pure noise is expected to produce a best of about 1.74. The winner did not clear the bar that randomness alone sets, so there is no strategy here to report, and reporting that is the result.</p>
 <p>One variant did clear it, and it was a bug. <code>gap_fade</code> was reading <code>close_to_open[t]</code>, which is the exact return it was trading. Every statistical test passed it. The fix was not statistical: nothing in the gauntlet can see an anchor sitting on the outcome, so the guard has to be structural and sit upstream of the search.</p>
 </div>
@@ -92,8 +93,8 @@ RC p   1.000</div>
   </svg>
   <figcaption>Every variant tested, ordered by Sharpe, each occupying one column of the 5,423.
   At page width they merge into a single mass, and the mass is the argument: that is the size of
-  the search. The dashed line is the best score 5,423 coin flips would be expected to produce on
-  their own; the red mark at the right is the best score actually achieved. It falls below the
+  the search. Of the 5,423, 4,620 scored. The dashed line is the best
+  score 4,620 no-skill strategies would be expected to reach on their own; the red mark at the right is the best score actually achieved. It falls below the
   line. The shape here is provisional: it is drawn from a distribution matching the reported statistics, not from the 5,423 recorded values. Drop those into <code>content/data/dartboard_sharpes.txt</code> and rebuild to replace it.</figcaption>
 </figure><article class="row" id="002">
 <div class="prose">
@@ -115,12 +116,9 @@ maxDD  -10.4%</div>
   <tbody>
     <tr><td>Overnight, filtered</td><td class="num">3.09%</td><td class="num">0.66</td><td class="num">&minus;10.4%</td><td class="num">5,443</td></tr>
     <tr><td>Buy &amp; hold SPY</td><td class="num">10.95%</td><td class="num">0.64</td><td class="num">&minus;55.2%</td><td class="num">5,443</td></tr>
-    <tr><td>L2 gate model, out of sample</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">2,017</td></tr>
   </tbody>
 </table></div>
-<figcaption>Sorted by the variable under test rather than by date. The L2 gate row carries no
-return figures because it never earned any: it scored AUC 0.499 across 2,017 out-of-sample
-trades, which is a coin flip.</figcaption>
+<figcaption>Sorted by the variable under test rather than by date.</figcaption>
 </figure>
 
 <h2 id="errata">Errata</h2>
@@ -130,7 +128,7 @@ trades, which is a coin flip.</figcaption>
   Corrects &#160; ATLAS/README.md, as published</div>
 <h3>My own README overstates my own work</h3>
 <p>The front page of ATLAS describes it as a <del>Goldman Sachs institutional quant toolkit</del> running <del>16 specialized AI agents</del>, and reports a <del>$159,554 balance</del>.</p>
-<p>None of the three holds up against the repository it describes. The balance is a paper account. "Institutional" measures nothing. The agent count counts files.</p>
+<p>None of the three holds up against the repository it describes. The balance is a paper account. &quot;Institutional&quot; measures nothing. The agent count counts files.</p>
 <p>The subpackages already contradict it: the dartboard search above reports that nothing survived correction, and the overnight track reports a strategy that loses to buy-and-hold. Both were written before that README and are more careful than it is.</p>
 <p>This entry is the correction. The original text stays where it is, struck rather than deleted.</p>
 </div>
@@ -141,9 +139,9 @@ trades, which is a coin flip.</figcaption>
 
 <footer class="colophon">
 Every entry: claim &#8594; method &#8594; evidence &#8594; verdict, in that order.<br>
-Commit counts are read from the GitHub API when this page is built. They are not typed by hand.<br>
+Commit counts for public repositories are read from the GitHub API when this page is built.<br>
+Counts for the private ones are mine, and you cannot check them.<br>
 Nothing is deleted. Errors are struck, dated, and left legible.<br>
-Numbers live in the right rail at body size, or they are not numbers.<br>
 Set in IBM Plex Serif and IBM Plex Mono, self-hosted. No JavaScript.
 <a href="https://github.com/LVXCAS">GitHub</a> &#183; <a href="mailto:lucasoghigian@gmail.com">lucasoghigian@gmail.com</a><br>
 Built 2026-09-01.

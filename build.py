@@ -15,6 +15,9 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 P = lambda *a: os.path.join(ROOT, *a)
 OFFLINE = "--offline" in sys.argv
 
+# Every git identity the author has committed under. Missing one understates his own work.
+AUTHORS = ("LVXCAS", "lucasoghigian@gmail.com", "lucas.390437@nv.ccsd.net")
+
 
 # ---------------------------------------------------------------- github
 
@@ -38,27 +41,39 @@ def _gh(path):
 
 
 def commit_counts(owner, repo):
-    """(mine, total). Counts are capped by the API page size; we report what we can see."""
-    total = mine = None
+    """(mine, total).
+
+    `gh api -I` does not surface the Link header here, so the pagination trick that
+    yields a true total is done with curl. Without it the total silently capped at
+    "100+", which reported AIMUX (7,907 commits, a fork of OpenAI Codex) as "100+"
+    and understated it by nearly eighty times.
+    """
+    total = None
     try:
-        out = subprocess.run(
-            ["gh", "api", f"repos/{owner}/{repo}/commits?per_page=1", "-I"],
-            capture_output=True, text=True, timeout=25)
-        m = re.search(r'[?&]page=(\d+)>;\s*rel="last"', out.stdout)
+        tok = subprocess.run(["gh", "auth", "token"], capture_output=True,
+                             text=True, timeout=15).stdout.strip()
+        hdr = subprocess.run(
+            ["curl", "-sI", "-H", f"Authorization: Bearer {tok}",
+             "-H", "Accept: application/vnd.github+json",
+             f"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1"],
+            capture_output=True, text=True, timeout=25).stdout
+        m = re.search(r'[?&]page=(\d+)>;\s*rel="last"', hdr)
         if m:
             total = int(m.group(1))
     except Exception:
         pass
-    if total is None:
+    if total is None:                       # small repo: one page holds everything
         d = _gh(f"repos/{owner}/{repo}/commits?per_page=100")
         total = len(d) if isinstance(d, list) else None
-        if total == 100:
-            total = "100+"
-    d = _gh(f"repos/{owner}/{repo}/commits?author={owner}&per_page=100")
-    if isinstance(d, list):
-        mine = len(d)
-        if mine == 100:
-            mine = "100+"
+
+    # He has committed under more than one identity; querying only the account login
+    # reported his own commits as someone else's (Wholesaling-Agents- read 2/4, not 4/4).
+    seen = set()
+    for who in AUTHORS:
+        d = _gh(f"repos/{owner}/{repo}/commits?author={who}&per_page=100")
+        if isinstance(d, list):
+            seen.update(c["sha"] for c in d if isinstance(c, dict) and "sha" in c)
+    mine = len(seen) if seen else None
     return mine, total
 
 
@@ -79,9 +94,14 @@ def resolve_counts(projects, owner):
                 print(f"    using cached counts for {key}")
                 mine, total = cache[key]
             else:
-                mine, total = "?", "?"
+                raise SystemExit(
+                    f"\nBuild stopped: could not read commit counts for {key} and no cached "
+                    f"value exists.\nThe page states these numbers come from the API, so it "
+                    f"must not be built with a placeholder.\nCheck `gh auth status`, or pass "
+                    f"--offline once a cache exists.")
         p["commits_mine"], p["commits_total"] = mine, total
-        cache[key] = [mine, total]
+        if isinstance(mine, int):
+            cache[key] = [mine, total]
     json.dump(cache, open(cache_path, "w"), indent=2)
     return projects
 
@@ -89,13 +109,17 @@ def resolve_counts(projects, owner):
 # ---------------------------------------------------------------- markdown
 
 def inline(s):
-    """Deliberately small: the only inline syntax the site actually uses."""
-    s = html.escape(s, quote=False)
+    """Deliberately small: the only inline syntax the site actually uses.
+
+    Order matters. Escaping runs first, and no blanket text substitution runs after
+    code spans and links exist: a global "--" to em-dash pass corrupted `--offline`
+    inside <code> and mangled any href containing a double hyphen.
+    """
+    s = html.escape(s)
     s = re.sub(r"`([^`]+)`", r"<code>\1</code>", s)
     s = re.sub(r"~~(.+?)~~", r"<del>\1</del>", s)
     s = re.sub(r"\[([^\]]+)\]\(([^)]+)\)", r'<a href="\2">\1</a>', s)
     s = re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", s)
-    s = s.replace("--", "&mdash;").replace("...", "&hellip;")
     return s
 
 
@@ -162,8 +186,8 @@ def census_svg():
   </svg>
   <figcaption>Every variant tested, ordered by Sharpe, each occupying one column of the 5,423.
   At page width they merge into a single mass, and the mass is the argument: that is the size of
-  the search. The dashed line is the best score 5,423 coin flips would be expected to produce on
-  their own; the red mark at the right is the best score actually achieved. It falls below the
+  the search. Of the 5,423, 4,620 scored. The dashed line is the best
+  score 4,620 no-skill strategies would be expected to reach on their own; the red mark at the right is the best score actually achieved. It falls below the
   line.{note}</figcaption>
 </figure>'''
 
@@ -174,12 +198,9 @@ OVERNIGHT_TABLE = '''<figure>
   <tbody>
     <tr><td>Overnight, filtered</td><td class="num">3.09%</td><td class="num">0.66</td><td class="num">&minus;10.4%</td><td class="num">5,443</td></tr>
     <tr><td>Buy &amp; hold SPY</td><td class="num">10.95%</td><td class="num">0.64</td><td class="num">&minus;55.2%</td><td class="num">5,443</td></tr>
-    <tr><td>L2 gate model, out of sample</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">2,017</td></tr>
   </tbody>
 </table></div>
-<figcaption>Sorted by the variable under test rather than by date. The L2 gate row carries no
-return figures because it never earned any: it scored AUC 0.499 across 2,017 out-of-sample
-trades, which is a coin flip.</figcaption>
+<figcaption>Sorted by the variable under test rather than by date.</figcaption>
 </figure>'''
 
 FIGURES = {"census": census_svg, "overnight-table": lambda: OVERNIGHT_TABLE}
@@ -257,11 +278,12 @@ def feature_voidbreaker():
                         "per frame with pygame.draw and gfxdraw."),
         ("boss-monolith.webp", "The Monolith, the wave-five boss. Nebulae are synthesised "
                                "through numpy into Surfaces."),
-        ("launch.webp", "The launch screen. No font files either: the type is drawn."),
+        ("launch.webp", "The launch screen. No font files either \u2014 the type is set in a "
+                        "monospace face the machine already has."),
     ]
     figs = "".join(
         f'<figure><img src="assets/img/{f}" alt="{html.escape(c)}" loading="lazy" '
-        f'width="900" height="563"><figcaption>{c}</figcaption></figure>'
+        f'width="900" height="507"><figcaption>{c}</figcaption></figure>'
         for f, c in shots)
     return f'''<section class="feature" aria-labelledby="vb">
 <div class="feature-in">
@@ -269,11 +291,12 @@ def feature_voidbreaker():
   <h2 id="vb">VOIDBREAKER</h2>
   <p>A twin-stick arcade roguelite in pygame-ce. Survive escalating waves, draft perks
   that compound, and break the Monolith every fifth wave.</p>
-  <p><strong>The repository contains no image files and no audio files.</strong> Every sprite is
-  drawn with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is
-  synthesised through <code>numpy</code> into a Surface, and the whole soundtrack and effects
-  bank is DSP written from scratch and handed to <code>pygame.mixer</code> as raw sample
-  buffers. Nothing on screen was drawn by hand or loaded from disk.</p>
+  <p><strong>The game ships no art, no audio and no font files.</strong> Every sprite is drawn
+  with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is synthesised
+  through <code>numpy</code> into a Surface, the soundtrack and effects bank is DSP written from
+  scratch and handed to <code>pygame.mixer</code> as raw sample buffers, and the type is set in
+  whatever monospace face the machine already has. The screenshots below are the only images in
+  the repository, and the game never loads them.</p>
   <div class="shots">{figs}</div>
   <p>It runs in a browser as the same Python compiled to WebAssembly with pygbag. Browsers
   have no hardware SDL renderer, so the web build starts with bloom and scanlines off; the
@@ -349,9 +372,9 @@ def main():
 
 <footer class="colophon">
 Every entry: claim &#8594; method &#8594; evidence &#8594; verdict, in that order.<br>
-Commit counts are read from the GitHub API when this page is built. They are not typed by hand.<br>
+Commit counts for public repositories are read from the GitHub API when this page is built.<br>
+Counts for the private ones are mine, and you cannot check them.<br>
 Nothing is deleted. Errors are struck, dated, and left legible.<br>
-Numbers live in the right rail at body size, or they are not numbers.<br>
 Set in IBM Plex Serif and IBM Plex Mono, self-hosted. No JavaScript.
 <a href="{site['github']}">GitHub</a> &#183; <a href="mailto:{site['email']}">{site['email']}</a><br>
 Built {built}.

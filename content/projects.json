@@ -5,7 +5,7 @@
     "period": [
       "2026-08"
     ],
-    "what": "Twin-stick arcade roguelite in pygame-ce. Every sprite, glow, sound effect and both music loops are generated at runtime \u2014 the repository ships no image files and no audio files.",
+    "what": "Twin-stick arcade roguelite in pygame-ce. The game ships no art, no audio and no font files: every sprite, glow, sound and both music loops are generated at runtime.",
     "status": "Playable in a browser, compiled to WebAssembly with pygbag.",
     "evidence": [
       "9,335 lines of game code",
@@ -27,7 +27,7 @@
   {
     "name": "ATLAS",
     "repo": null,
-    "note_repo": "private \u2014 not linkable",
+    "note_repo": "private",
     "commits_mine": 1841,
     "commits_total": 1841,
     "period": [
@@ -37,7 +37,7 @@
     "what": "Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.",
     "status": "Paper account. It has never sent an order.",
     "evidence": [
-      "1,841 commits over 13 months",
+      "1,841 commits over 12 months",
       "5 CI workflows",
       "156 test files"
     ]
@@ -65,8 +65,11 @@
     "status": "A working fork, not a working product.",
     "evidence": [
       "!most commit history is inherited from the upstream fork",
-      "!never run against a live API key"
-    ]
+      "!never run against a live API key",
+      "!\"compiles and runs\" is my own claim, not a published build"
+    ],
+    "commits_mine": 8,
+    "commits_total": 7907
   },
   {
     "name": "wholesale-os",
@@ -81,9 +84,7 @@
     "what": "Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.",
     "status": "Two commits, but the data path was tested against the real county API.",
     "evidence": [
-      "5 vitest suites",
-      "live-verified against the county ArcGIS API",
-      "!never deployed"
+      "!private, so none of this is checkable from outside"
     ]
   },
   {
@@ -125,8 +126,7 @@
     "what": "Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.",
     "status": "Two commits. The compliance layer is the interesting part.",
     "evidence": [
-      "compliance rules written before the store",
-      "!never deployed"
+      "!private, so none of this is checkable from outside"
     ]
   },
   {
@@ -136,7 +136,7 @@
       "2026-05"
     ],
     "what": "Claude Code skill that routes each task to the cheapest model that can finish it.",
-    "status": "Three commits, one afternoon. One GitHub star, which is one more than the rest.",
+    "status": "Three commits, one afternoon. It has one GitHub star.",
     "evidence": [
       "40 lines"
     ]
@@ -150,7 +150,9 @@
     "what": "Early agent experiment for real-estate lead triage.",
     "status": "Abandoned. Superseded by wholesale-os.",
     "evidence": [
-      "!large, but committed in 4 bulk commits \u2014 read the history before the line count"
-    ]
+      "!about 150,000 lines, but 4 bulk commits. Read the history, not the line count."
+    ],
+    "commits_mine": 4,
+    "commits_total": 4
   }
 ]
