@@ -209,20 +209,23 @@ def entry_html(e, site):
 {fig}'''
 
 
+def _n(v):
+    return f"{v:,}" if isinstance(v, int) else str(v)
+
+
 def project_row(p, owner):
-    per = "<br>".join(p["period"])
-    nm = p["name"]
-    link = (f'<a href="https://github.com/{owner}/{p["repo"]}">{nm}</a>' if p.get("repo") else nm)
+    per = "&#8211;".join(p["period"])   # single string: wraps on desktop, joins cleanly on mobile
+    link = (f'<a href="https://github.com/{owner}/{p["repo"]}">{p["name"]}</a>'
+            if p.get("repo") else p["name"])
     sub = f'<br><span class="st">{inline(p["note_repo"])}</span>' if p.get("note_repo") else ""
-    return (f'<tr><td><span class="nm">{link}</span>{sub}</td>'
-            f'<td>{inline(p["what"])}<br><span class="st">{inline(p["status"])}</span></td>'
-            f'<td class="num">{per}</td>'
-            f'<td class="num">{p["commits_mine"]:,} / {p["commits_total"]:,}</td></tr>'
-            if isinstance(p["commits_mine"], int) and isinstance(p["commits_total"], int) else
-            f'<tr><td><span class="nm">{link}</span>{sub}</td>'
-            f'<td>{inline(p["what"])}<br><span class="st">{inline(p["status"])}</span></td>'
-            f'<td class="num">{per}</td>'
-            f'<td class="num">{p["commits_mine"]} / {p["commits_total"]}</td></tr>')
+    counts = f'{_n(p["commits_mine"])} / {_n(p["commits_total"])}'
+    return (f'<tr>'
+            f'<td data-label="Project"><span class="nm">{link}</span>{sub}</td>'
+            f'<td data-label="What it is">{inline(p["what"])}'
+            f'<br><span class="st">{inline(p["status"])}</span></td>'
+            f'<td class="num" data-label="Period">{per}</td>'
+            f'<td class="num" data-label="Commits mine / total">{counts}</td>'
+            f'</tr>')
 
 
 def main():
@@ -268,7 +271,7 @@ def main():
 <p class="lede">{inline(site['lede'])}</p>
 
 <h2 id="projects">Projects</h2>
-<div class="wide"><table>
+<div class="wide"><table class="projects">
 <thead><tr><th>Project</th><th>What it is</th><th class="num">Period</th><th class="num">Mine / total</th></tr></thead>
 <tbody>
 {rows}

@@ -84,7 +84,7 @@ figcaption{font-style:italic;font-size:1rem;line-height:1.5;color:var(--ink-mute
 
 table{border-collapse:collapse;width:100%;font-variant-numeric:tabular-nums;font-size:1rem}
 th,td{text-align:left;padding:9px 12px 9px 0;border-bottom:1px solid var(--rule);vertical-align:top}
-td.num,th.num{text-align:right;font-family:var(--mono);padding-right:0;white-space:nowrap}
+td.num,th.num{text-align:right;font-family:var(--mono);padding:9px 0 9px 24px;white-space:nowrap}
 th{font-family:var(--mono);font-weight:500;font-size:.833rem;letter-spacing:.06em;
   text-transform:uppercase;color:var(--ink-muted)}
 td .nm{font-family:var(--mono);font-weight:500}
@@ -108,4 +108,25 @@ td .st{color:var(--ink-muted);font-size:.94rem}
   :root{--paper:#fff;--ink:#000;--ink-muted:#444;--rule:#bbb;--erratum:#900}
   .sheet::after{display:none} .row{display:block}
   .row>.rail{border-left:2px solid var(--rule);padding-left:12px;margin-bottom:1rem}
+}
+
+/* The projects table carries four columns of real content. Below ~700px that
+   wraps descriptions to two words a line, so each row becomes a block and the
+   column headings move into the cells as labels. */
+@media (max-width:700px){
+  table.projects thead{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  table.projects,table.projects tbody,table.projects tr,table.projects td{display:block;width:100%}
+  table.projects tr{border-bottom:1px solid var(--rule);padding:16px 0}
+  table.projects td{border:none;padding:0 0 6px}
+  table.projects td.num{text-align:left}
+  table.projects td[data-label="Period"],
+  table.projects td[data-label="Commits mine / total"]{
+    display:inline-block;width:auto;margin-right:20px;color:var(--ink-muted)}
+  table.projects td[data-label]::before{
+    content:attr(data-label) " ";font-family:var(--mono);font-size:.72rem;
+    letter-spacing:.06em;text-transform:uppercase;color:var(--ink-muted);
+    display:block;margin-bottom:2px}
+  table.projects td[data-label="Project"]::before,
+  table.projects td[data-label="What it is"]::before{display:none}
+  table.projects td[data-label="Project"] .nm{font-size:1.05rem}
 }
