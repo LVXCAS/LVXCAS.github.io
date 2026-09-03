@@ -45,7 +45,9 @@ nothing else. If nothing was measured, leave it out — the blank is the point.
 
 Edit `content/projects.json`. Set `"repo"` to the GitHub repository name and the
 commit counts fill themselves in. Set `"repo": null` for anything private and
-supply `commits_mine` / `commits_total` yourself.
+supply `commits_mine` / `commits_total` yourself, or set `"count_repo"` (and
+optionally `"count_branch"`) to have counts read from a private repo's API
+without rendering a link to it.
 
 ## Design
 

@@ -28,8 +28,8 @@
     "name": "ATLAS",
     "repo": null,
     "note_repo": "private",
-    "commits_mine": 1841,
-    "commits_total": 1841,
+    "count_repo": "atlas-aurtoria",
+    "count_branch": "atlas-prop-trading",
     "period": [
       "2025-08",
       "2026-08"
@@ -37,9 +37,44 @@
     "what": "Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.",
     "status": "Paper account. It has never sent an order.",
     "evidence": [
-      "1,841 commits over 12 months",
+      "12 months of commits, counted from the atlas-prop-trading branch",
       "5 CI workflows",
-      "156 test files"
+      "370 test files, counting tracked files named test_*.py",
+      "!lives on GitHub as the private monorepo atlas-aurtoria. Its main branch is 127 commits, most of them a README bot.",
+      "!my local clone is 28 commits ahead of what is counted here"
+    ]
+  },
+  {
+    "name": "AtlasRisk",
+    "repo": null,
+    "note_repo": "private",
+    "count_repo": "AtlasRisk",
+    "period": [
+      "2026-01",
+      "2026-02"
+    ],
+    "what": "Simulation-only risk analysis. Multi-agent reasoning over market snapshots, disagreement detection, a veto layer, and a logged decision trace for every call.",
+    "status": "170 commits in 17 days, then nothing. It never connected to a broker, by design.",
+    "evidence": [
+      "about 805 KB of Python, per the GitHub languages API",
+      "!private, so none of this is checkable from outside"
+    ]
+  },
+  {
+    "name": "atlas-ninja-ict",
+    "repo": null,
+    "note_repo": "private",
+    "count_repo": "atlas-ninja-ict",
+    "period": [
+      "2026-06",
+      "2026-07"
+    ],
+    "what": "NinjaTrader 8 indicators in C# that draw the ATLAS ICT setups, entry, stop and target, on a chart for manual execution. A port of the Rust live-engine strategy.",
+    "status": "Three commits. It draws signals and never places an order.",
+    "evidence": [
+      "2 indicators, about 49 KB of C#",
+      "!private, so none of this is checkable from outside",
+      "!that the port matches the Rust source is my claim. Nobody outside has diffed them."
     ]
   },
   {
@@ -74,7 +109,7 @@
   {
     "name": "wholesale-os",
     "repo": null,
-    "note_repo": "private \u2014 not linkable",
+    "note_repo": "private — not linkable",
     "commits_mine": 2,
     "commits_total": 2,
     "period": [
@@ -114,9 +149,29 @@
     ]
   },
   {
+    "name": "ATLAS-Presidential-AI-Challenge",
+    "repo": "ATLAS-Presidential-AI-Challenge",
+    "period": [
+      "2025-08",
+      "2026-01"
+    ],
+    "what": "Presidential AI Challenge, Track II entry, built with a teammate. A simulation-only risk-literacy tool for students that labels synthetic market stress windows by risk level and explains why.",
+    "status": "Submitted January 2026. It has a demo page and a four-minute video.",
+    "evidence": [
+      "!no price prediction, no trades, no API keys, by design",
+      "!the rest of the commits are my teammate's"
+    ],
+    "links": [
+      [
+        "Demo",
+        "https://lvxcas.github.io/ATLAS-Presidential-AI-Challenge/"
+      ]
+    ]
+  },
+  {
     "name": "peptide-shop",
     "repo": null,
-    "note_repo": "private \u2014 not linkable",
+    "note_repo": "private — not linkable",
     "commits_mine": 2,
     "commits_total": 2,
     "period": [
@@ -142,13 +197,29 @@
     ]
   },
   {
+    "name": "HiveTrading",
+    "repo": null,
+    "note_repo": "private",
+    "count_repo": "HiveTrading",
+    "period": [
+      "2025-08",
+      "2025-09"
+    ],
+    "what": "Bloomberg-terminal-styled trading stack. FastAPI, React, TimescaleDB, Redis, Grafana and Jaeger, all in Docker Compose.",
+    "status": "Abandoned after three weeks. It is where ATLAS started.",
+    "evidence": [
+      "!4 of the 16 commits are a teammate's, and 1 is committed as \"Claude Code Assistant\"",
+      "!its README calls it \"professional-grade\" and \"autonomous\". It was neither."
+    ]
+  },
+  {
     "name": "Wholesaling-Agents-",
     "repo": "Wholesaling-Agents-",
     "period": [
       "2025-08"
     ],
     "what": "Early agent experiment for real-estate lead triage.",
-    "status": "Abandoned. Superseded by wholesale-os.",
+    "status": "Abandoned. Preceded by Real-Estate-Project, three private commits in June 2025, and superseded by wholesale-os.",
     "evidence": [
       "!about 150,000 lines, but 4 bulk commits. Read the history, not the line count."
     ],

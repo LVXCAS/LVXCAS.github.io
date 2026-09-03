@@ -40,22 +40,65 @@ def _gh(path):
         return None
 
 
-def commit_counts(owner, repo):
+def _commit_shas_paginated(owner, repo, author, branch=None):
+    """All commit SHAs by `author` in `repo` (optionally restricted to `branch`).
+
+    The per-author query reads only one page unless paginated, which silently
+    capped `mine` at 100. `gh api --paginate` follows the Link header itself; the
+    anonymous fallback below follows it by hand for the same reason `commit_counts`
+    does for `total`.
+    """
+    path = f"repos/{owner}/{repo}/commits?author={author}&per_page=100"
+    if branch:
+        path += f"&sha={branch}"
+    try:
+        out = subprocess.run(
+            ["gh", "api", "--paginate", "--jq", ".[].sha", path],
+            capture_output=True, text=True, timeout=60)
+        if out.returncode == 0:
+            return [s for s in out.stdout.splitlines() if s.strip()]
+    except (FileNotFoundError, subprocess.TimeoutExpired):
+        pass
+    shas = []
+    url = "https://api.github.com/" + path
+    while url:
+        try:
+            req = urllib.request.Request(url, headers={
+                "Accept": "application/vnd.github+json",
+                "User-Agent": "lvxcas-site-build"})
+            with urllib.request.urlopen(req, timeout=25) as r:
+                data = json.loads(r.read().decode())
+                link = r.headers.get("Link", "")
+        except Exception as e:
+            # A partial list would understate `mine` and then be cached as truth.
+            print(f"    ! {url}: {e}")
+            return None
+        if not isinstance(data, list):
+            return None
+        shas.extend(c["sha"] for c in data if isinstance(c, dict) and "sha" in c)
+        m = re.search(r'<([^>]+)>;\s*rel="next"', link)
+        url = m.group(1) if m else None
+    return shas
+
+
+def commit_counts(owner, repo, branch=None):
     """(mine, total).
 
     `gh api -I` does not surface the Link header here, so the pagination trick that
     yields a true total is done with curl. Without it the total silently capped at
     "100+", which reported AIMUX (7,907 commits, a fork of OpenAI Codex) as "100+"
-    and understated it by nearly eighty times.
+    and understated it by nearly eighty times. `branch` restricts both counts to
+    one branch via `sha=<branch>`, for repos whose main branch is not the real one.
     """
     total = None
+    sha_q = f"&sha={branch}" if branch else ""
     try:
         tok = subprocess.run(["gh", "auth", "token"], capture_output=True,
                              text=True, timeout=15).stdout.strip()
         hdr = subprocess.run(
             ["curl", "-sI", "-H", f"Authorization: Bearer {tok}",
              "-H", "Accept: application/vnd.github+json",
-             f"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1"],
+             f"https://api.github.com/repos/{owner}/{repo}/commits?per_page=1{sha_q}"],
             capture_output=True, text=True, timeout=25).stdout
         m = re.search(r'[?&]page=(\d+)>;\s*rel="last"', hdr)
         if m:
@@ -63,16 +106,16 @@ def commit_counts(owner, repo):
     except Exception:
         pass
     if total is None:                       # small repo: one page holds everything
-        d = _gh(f"repos/{owner}/{repo}/commits?per_page=100")
+        d = _gh(f"repos/{owner}/{repo}/commits?per_page=100{sha_q}")
         total = len(d) if isinstance(d, list) else None
 
     # He has committed under more than one identity; querying only the account login
     # reported his own commits as someone else's (Wholesaling-Agents- read 2/4, not 4/4).
     seen = set()
     for who in AUTHORS:
-        d = _gh(f"repos/{owner}/{repo}/commits?author={who}&per_page=100")
-        if isinstance(d, list):
-            seen.update(c["sha"] for c in d if isinstance(c, dict) and "sha" in c)
+        shas = _commit_shas_paginated(owner, repo, who, branch)
+        if shas:
+            seen.update(shas)
     mine = len(seen) if seen else None
     return mine, total
 
@@ -81,14 +124,18 @@ def resolve_counts(projects, owner):
     cache_path = P("content", "commit-cache.json")
     cache = json.load(open(cache_path)) if os.path.exists(cache_path) else {}
     for p in projects:
-        if not p.get("repo"):
+        # count_repo reads counts for a repo without rendering a link to it, for
+        # private repos; count_branch restricts the read to one branch of it.
+        source = p.get("count_repo") or p.get("repo")
+        if not source:
             continue                      # private or unpublished: counts are authored
-        key = p["repo"]
+        branch = p.get("count_branch")
+        key = f"{source}@{branch}" if branch else source
         if OFFLINE and key in cache:
             p["commits_mine"], p["commits_total"] = cache[key]
             continue
         print(f"  fetching {key} ...")
-        mine, total = commit_counts(owner, key)
+        mine, total = commit_counts(owner, source, branch)
         if mine is None or total is None:
             if key in cache:
                 print(f"    using cached counts for {key}")
@@ -373,7 +420,7 @@ def main():
 <footer class="colophon">
 Every entry: claim &#8594; method &#8594; evidence &#8594; verdict, in that order.<br>
 Commit counts for public repositories are read from the GitHub API when this page is built.<br>
-Counts for the private ones are mine, and you cannot check them.<br>
+Counts for private repositories are read the same way, through my own token, so you cannot check them.<br>
 Nothing is deleted. Errors are struck, dated, and left legible.<br>
 Set in IBM Plex Serif and IBM Plex Mono, self-hosted. No JavaScript.
 <a href="{site['github']}">GitHub</a> &#183; <a href="mailto:{site['email']}">{site['email']}</a><br>
