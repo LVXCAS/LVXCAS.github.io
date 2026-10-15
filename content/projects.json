@@ -25,6 +25,28 @@
     ]
   },
   {
+    "name": "pixel-poker",
+    "repo": "pixel-poker",
+    "period": [
+      "2026-10"
+    ],
+    "what": "PIXEL HOLD'EM. A No-Limit Texas Hold'em trainer in pixel art. You play against 1 to 8 bots at skill ratings you pick, while a coach shows equity, pot odds and outs, and explains why it would fold, call or raise. Includes an 8-lesson tutorial, drills, hand review, and peer-to-peer rooms and sit-n-go tournaments with friends. Play chips only.",
+    "status": "Live on GitHub Pages and playable solo in a browser. Multiplayer has not yet been tested between two real players on different networks.",
+    "evidence": [
+      "12,571 lines of JavaScript, no framework, no build step",
+      "231 automated tests, 13 of them cheating attempts against multiplayer",
+      "bot win rates measured over simulated hands: the 5-star bot beats the 1-star bot",
+      "!written mostly by AI coding agents I directed in one session; I set the design direction and playtested",
+      "!the table layout is cut off on phones"
+    ],
+    "links": [
+      [
+        "Play it",
+        "https://lvxcas.github.io/pixel-poker/"
+      ]
+    ]
+  },
+  {
     "name": "ATLAS",
     "repo": null,
     "note_repo": "private",

@@ -6,70 +6,120 @@
 <title>Lucas Oghigian</title>
 <meta name="description" content="Projects, findings, and corrections to them. Every project is listed with the number of commits that are mine against the number in the repository.">
 <meta name="color-scheme" content="light dark">
+<script>(function(r){r.classList.add("js");try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")r.setAttribute("data-theme",t)}catch(e){}setTimeout(function(){if(!window.__motion)r.classList.remove("js")},3000)})(document.documentElement)</script>
+<link rel="preload" href="assets/fonts/IBMPlexSerif-600.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/IBMPlexSerif-400.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/IBMPlexMono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 16 16%27%3E%3Crect width=%2716%27 height=%2716%27 fill=%27%23A8321E%27/%3E%3C/svg%3E">
 <link rel="stylesheet" href="styles.css">
+<script src="motion.js" defer></script>
 <meta property="og:title" content="Lucas Oghigian">
 <meta property="og:description" content="Projects, findings, and corrections to them.">
 <meta property="og:type" content="website">
 </head>
 <body>
 <a class="skip" href="#projects">Skip to projects</a>
-<main class="sheet">
-
-<header class="masthead">
-  <h1>Lucas Oghigian</h1>
-  <div class="n">lvxcas &#183; projects, findings, and corrections to them</div>
+<header class="top">
+<div class="wrap">
+  <a class="brand" href="#top">lvxcas</a>
+  <nav aria-label="Sections">
+    <a href="#play">Play</a><a href="#projects">Projects</a><a href="#findings">Findings</a><a class="nav-errata" href="#errata">Errata</a>
+    <button class="theme" type="button" hidden><span class="disc" aria-hidden="true"></span></button>
+  </nav>
+</div>
 </header>
-
-<p class="lede">I am a student. I build trading research systems, agent tooling, and games. Everything below says what it actually is: how much of it is mine, whether it was ever run, and what it failed to prove.</p>
-
-<section class="feature" aria-labelledby="vb">
-<div class="feature-in">
-  <p class="eyebrow">The one you can actually play</p>
-  <h2 id="vb">VOIDBREAKER</h2>
-  <p>A twin-stick arcade roguelite in pygame-ce. Survive escalating waves, draft perks
-  that compound, and break the Monolith every fifth wave.</p>
-  <p><strong>The game ships no art, no audio and no font files.</strong> Every sprite is drawn
-  with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is synthesised
-  through <code>numpy</code> into a Surface, the soundtrack and effects bank is DSP written from
-  scratch and handed to <code>pygame.mixer</code> as raw sample buffers, and the type is set in
-  whatever monospace face the machine already has. The screenshots below are the only images in
-  the repository, and the game never loads them.</p>
-  <div class="shots"><figure><img src="assets/img/combat.webp" alt="Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw." loading="lazy" width="900" height="507"><figcaption>Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw.</figcaption></figure><figure><img src="assets/img/boss-monolith.webp" alt="The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces." loading="lazy" width="900" height="507"><figcaption>The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces.</figcaption></figure><figure><img src="assets/img/launch.webp" alt="The launch screen. No font files either — the type is set in a monospace face the machine already has." loading="lazy" width="900" height="507"><figcaption>The launch screen. No font files either — the type is set in a monospace face the machine already has.</figcaption></figure></div>
-  <p>It runs in a browser as the same Python compiled to WebAssembly with pygbag. Browsers
-  have no hardware SDL renderer, so the web build starts with bloom and scanlines off; the
-  desktop build is the faster one.</p>
-  <div class="vbstats">
-    <div><b>0</b><span>asset files</span></div>
-    <div><b>9,335</b><span>lines of game</span></div>
-    <div><b>3,295</b><span>lines of tests</span></div>
-    <div><b>255</b><span>test functions</span></div>
+<main>
+<section class="hero" id="top">
+<div class="wrap">
+  <p class="kicker"><b>lvxcas</b><span>projects, findings, and <em>corrections</em> to them</span></p>
+  <h1 class="name" aria-label="Lucas Oghigian"><span class="w"><span style="--i:0">Lucas</span></span><span class="w"><span style="--i:1">Oghigian</span></span></h1>
+  <div class="hero-grid">
+    <p class="lede">I am a student. I build trading research systems, agent tooling, and games. Everything below says what it actually is: how much of it is mine, whether it was ever run, and what it failed to prove.</p>
+    <nav class="contents" aria-label="Contents">
+      <p class="ch">Contents</p>
+      <ol><li><a href="#play"><span class="ix">01</span><span class="t">Playable</span><span class="dots" aria-hidden="true"></span><span class="c">02</span></a></li><li><a href="#projects"><span class="ix">02</span><span class="t">Everything else</span><span class="dots" aria-hidden="true"></span><span class="c">13</span></a></li><li><a href="#findings"><span class="ix">03</span><span class="t">Findings</span><span class="dots" aria-hidden="true"></span><span class="c">02</span></a></li><li><a href="#errata"><span class="ix">04</span><span class="t">Errata</span><span class="dots" aria-hidden="true"></span><span class="c">02</span></a></li></ol>
+      <p class="built">Built 2026-10-15. Commit counts read from the GitHub API.</p>
+    </nav>
   </div>
-  <a class="play" href="https://lvxcas.github.io/voidbreaker/play/">Play it in your browser &#8594;</a>
 </div>
 </section>
 
-<h2 id="projects">Everything else</h2>
-<div class="plist">
-<div class="proj"><div class="proj-main"><h3>ATLAS <span class="priv">private</span></h3><p>Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.<span class="st">Paper account. It has never sent an order.</span></p><ul class="ev"><li>12 months of commits, counted from the atlas-prop-trading branch</li><li>5 CI workflows</li><li>370 test files, counting tracked files named test_*.py</li><li class="caveat">lives on GitHub as the private monorepo atlas-aurtoria. Its main branch is 127 commits, most of them a README bot.</li><li class="caveat">my local clone is 28 commits ahead of what is counted here</li></ul></div><div class="proj-meta">2025-08&#8211;2026-08&#10;1,805 / 1,813 commits</div></div>
-<div class="proj"><div class="proj-main"><h3>AtlasRisk <span class="priv">private</span></h3><p>Simulation-only risk analysis. Multi-agent reasoning over market snapshots, disagreement detection, a veto layer, and a logged decision trace for every call.<span class="st">170 commits in 17 days, then nothing. It never connected to a broker, by design.</span></p><ul class="ev"><li>about 805 KB of Python, per the GitHub languages API</li><li class="caveat">private, so none of this is checkable from outside</li></ul></div><div class="proj-meta">2026-01&#8211;2026-02&#10;170 / 170 commits</div></div>
-<div class="proj"><div class="proj-main"><h3>atlas-ninja-ict <span class="priv">private</span></h3><p>NinjaTrader 8 indicators in C# that draw the ATLAS ICT setups, entry, stop and target, on a chart for manual execution. A port of the Rust live-engine strategy.<span class="st">Three commits. It draws signals and never places an order.</span></p><ul class="ev"><li>2 indicators, about 49 KB of C#</li><li class="caveat">private, so none of this is checkable from outside</li><li class="caveat">that the port matches the Rust source is my claim. Nobody outside has diffed them.</li></ul></div><div class="proj-meta">2026-06&#8211;2026-07&#10;3 / 3 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/gdrive-odoo-sync">gdrive-odoo-sync</a></h3><p>Odoo 18 addon that stages every Google Drive spreadsheet tab and verifies parity between Drive and Odoo.<span class="st">Documents a service-account Drive quota trap that is not in the vendor docs.</span></p><ul class="ev"><li>23 test files</li></ul></div><div class="proj-meta">2026-08&#10;3 / 10 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/AIMUX">AIMUX</a></h3><p>Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.<span class="st">A working fork, not a working product.</span></p><ul class="ev"><li class="caveat">most commit history is inherited from the upstream fork</li><li class="caveat">never run against a live API key</li><li class="caveat">&quot;compiles and runs&quot; is my own claim, not a published build</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;8 / 7,907 commits</div></div>
-<div class="proj"><div class="proj-main"><h3>wholesale-os <span class="priv">private — not linkable</span></h3><p>Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.<span class="st">Two commits, but the data path was tested against the real county API.</span></p><ul class="ev"><li class="caveat">private, so none of this is checkable from outside</li></ul></div><div class="proj-meta">2026-06&#8211;2026-08&#10;2 / 2 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Solana">Solana</a></h3><p>CLI for creating SPL tokens with anti-rug protections.<span class="st">Built over three days in February and not touched since. No recorded on-chain use.</span></p><ul class="ev"><li>1,973 lines</li><li class="caveat">no tests</li></ul></div><div class="proj-meta">2026-02&#10;50 / 50 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/CyberSec-Mini-Capstone">CyberSec-Mini-Capstone</a></h3><p>School capstone. Agent orchestration with a scored skills system.<span class="st">Coursework, finished and graded.</span></p><ul class="ev"><li>6,239 lines</li><li>4 test files</li></ul></div><div class="proj-meta">2026-04&#10;66 / 66 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/ATLAS-Presidential-AI-Challenge">ATLAS-Presidential-AI-Challenge</a></h3><p>Presidential AI Challenge, Track II entry, built with a teammate. A simulation-only risk-literacy tool for students that labels synthetic market stress windows by risk level and explains why.<span class="st">Submitted January 2026. It has a demo page and a four-minute video.</span></p><ul class="ev"><li class="caveat">no price prediction, no trades, no API keys, by design</li><li class="caveat">the rest of the commits are my teammate&#x27;s</li></ul><div class="plinks"><a href="https://lvxcas.github.io/ATLAS-Presidential-AI-Challenge/">Demo</a></div></div><div class="proj-meta">2025-08&#8211;2026-01&#10;50 / 59 commits</div></div>
-<div class="proj"><div class="proj-main"><h3>peptide-shop <span class="priv">private — not linkable</span></h3><p>Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.<span class="st">Two commits. The compliance layer is the interesting part.</span></p><ul class="ev"><li class="caveat">private, so none of this is checkable from outside</li></ul></div><div class="proj-meta">2026-05&#8211;2026-08&#10;2 / 2 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/stingyclaude">stingyclaude</a></h3><p>Claude Code skill that routes each task to the cheapest model that can finish it.<span class="st">Three commits, one afternoon. It has one GitHub star.</span></p><ul class="ev"><li>40 lines</li></ul></div><div class="proj-meta">2026-05&#10;3 / 3 commits</div></div>
-<div class="proj"><div class="proj-main"><h3>HiveTrading <span class="priv">private</span></h3><p>Bloomberg-terminal-styled trading stack. FastAPI, React, TimescaleDB, Redis, Grafana and Jaeger, all in Docker Compose.<span class="st">Abandoned after three weeks. It is where ATLAS started.</span></p><ul class="ev"><li class="caveat">4 of the 16 commits are a teammate&#x27;s, and 1 is committed as &quot;Claude Code Assistant&quot;</li><li class="caveat">its README calls it &quot;professional-grade&quot; and &quot;autonomous&quot;. It was neither.</li></ul></div><div class="proj-meta">2025-08&#8211;2025-09&#10;11 / 16 commits</div></div>
-<div class="proj"><div class="proj-main"><h3><a href="https://github.com/LVXCAS/Wholesaling-Agents-">Wholesaling-Agents-</a></h3><p>Early agent experiment for real-estate lead triage.<span class="st">Abandoned. Preceded by Real-Estate-Project, three private commits in June 2025, and superseded by wholesale-os.</span></p><ul class="ev"><li class="caveat">about 150,000 lines, but 4 bulk commits. Read the history, not the line count.</li></ul></div><div class="proj-meta">2025-08&#10;4 / 4 commits</div></div>
+<section class="block block-play" aria-labelledby="play">
+<div class="wrap"><h2 class="sec" id="play" data-r><span class="no">01</span><span>The two you can actually play</span></h2></div>
+<section class="plate plate-vb" id="voidbreaker" aria-labelledby="plate-vb">
+<div class="wrap plate-grid">
+  <div class="plate-text" data-r>
+    <p class="plate-no"><span>Plate 01 / 02</span><span>2026-08</span></p>
+    <h3 id="plate-vb">VOIDBREAKER</h3>
+    <p>A twin-stick arcade roguelite in pygame-ce. Survive escalating waves, draft perks that compound, and break the Monolith every fifth wave.</p><p><strong>The game ships no art, no audio and no font files.</strong> Every sprite is drawn with <code>pygame.draw</code> and <code>gfxdraw</code>, every glow and nebula is synthesised through <code>numpy</code> into a Surface, the soundtrack and effects bank is DSP written from scratch and handed to <code>pygame.mixer</code> as raw sample buffers, and the type is set in whatever monospace face the machine already has. The screenshots below are the only images in the repository, and the game never loads them.</p><p>It runs in a browser as the same Python compiled to WebAssembly with pygbag. Browsers have no hardware SDL renderer, so the web build starts with bloom and scanlines off; the desktop build is the faster one.</p>
+    <dl class="facts">
+      <div><dt>Status</dt><dd>Playable in a browser, compiled to WebAssembly with pygbag.</dd></div>
+      <div><dt>Commits</dt><dd class="lcount"><span class="cm"><b class="count">7</b><span class="sl"> / </span><span class="tot count">7</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></dd></div>
+    </dl>
+    
+  </div>
+  <div class="shots" data-r data-stagger><figure><img src="assets/img/combat.webp" alt="Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw." loading="lazy" decoding="async" width="900" height="507"><figcaption>Wave combat. Enemies, bullets, glow and trails are all drawn per frame with pygame.draw and gfxdraw.</figcaption></figure><figure><img src="assets/img/boss-monolith.webp" alt="The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces." loading="lazy" decoding="async" width="900" height="507"><figcaption>The Monolith, the wave-five boss. Nebulae are synthesised through numpy into Surfaces.</figcaption></figure><figure><img src="assets/img/launch.webp" alt="The launch screen. No font files either — the type is set in a monospace face the machine already has." loading="lazy" decoding="async" width="900" height="507"><figcaption>The launch screen. No font files either — the type is set in a monospace face the machine already has.</figcaption></figure></div>
+  <div class="plate-foot" data-r>
+    <div class="stats" data-stagger><div><b class="count">0</b><span>asset files</span></div><div><b class="count">9,335</b><span>lines of game</span></div><div><b class="count">3,295</b><span>lines of tests</span></div><div><b class="count">255</b><span>test functions</span></div></div>
+    <div class="ctas">
+      <a class="play" href="https://lvxcas.github.io/voidbreaker/play/">Play it in your browser <span aria-hidden="true">&#8594;</span></a>
+      <div class="plinks"><a href="https://lvxcas.github.io/voidbreaker/">Write-up</a><a href="https://github.com/LVXCAS/voidbreaker">Source</a></div>
+    </div>
+  </div>
 </div>
-<p class="note">Three other repositories on my GitHub account (<code>odoo</code>, <code>dexter-</code> and <code>AIdvisor-Presidential-AI-Challenge-25-26</code>) are forks of other people&#x27;s work and are not mine.</p>
+</section>
+<section class="plate plate-pk" id="pixel-poker" aria-labelledby="plate-pk">
+<div class="wrap plate-grid">
+  <div class="plate-text" data-r>
+    <p class="plate-no"><span>Plate 02 / 02</span><span>2026-10</span></p>
+    <h3 id="plate-pk">PIXEL HOLD'EM</h3>
+    <p>A No-Limit Texas Hold&#x27;em trainer in pixel art. You play against 1 to 8 bots at skill ratings you pick, while a coach shows equity, pot odds and outs, and explains why it would fold, call or raise. Includes an 8-lesson tutorial, drills, hand review, and peer-to-peer rooms and sit-n-go tournaments with friends. Play chips only.</p>
+    <dl class="facts">
+      <div><dt>Status</dt><dd>Live on GitHub Pages and playable solo in a browser. Multiplayer has not yet been tested between two real players on different networks.</dd></div>
+      <div><dt>Commits</dt><dd class="lcount"><span class="cm"><b class="count">4</b><span class="sl"> / </span><span class="tot count">4</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></dd></div>
+    </dl>
+    <ul class="ev"><li>12,571 lines of JavaScript, no framework, no build step</li><li>231 automated tests, 13 of them cheating attempts against multiplayer</li><li>bot win rates measured over simulated hands: the 5-star bot beats the 1-star bot</li><li class="caveat"><span class="vh">Caveat: </span>written mostly by AI coding agents I directed in one session; I set the design direction and playtested</li><li class="caveat"><span class="vh">Caveat: </span>the table layout is cut off on phones</li></ul>
+  </div>
+  <div class="shots" data-r data-stagger><figure><img src="assets/img/poker-table.webp" alt="A hand in progress. The coach panel on the right reads the hand and says why it would fold." loading="lazy" decoding="async" width="960" height="600"><figcaption>A hand in progress. The coach panel on the right reads the hand and says why it would fold.</figcaption></figure><figure><img src="assets/img/poker-setup.webp" alt="Table setup: opponents, stacks, blinds, and a skill rating for each bot." loading="lazy" decoding="async" width="960" height="600"><figcaption>Table setup: opponents, stacks, blinds, and a skill rating for each bot.</figcaption></figure></div>
+  <div class="plate-foot" data-r>
+    <div class="stats" data-stagger><div><b class="count" data-ghost="88,888">12,571</b><span>lines of JavaScript</span></div><div><b class="count" data-ghost="888">231</b><span>automated tests</span></div><div><b class="count" data-ghost="88">13</b><span>of them cheating attempts</span></div><div><b class="count" data-ghost="8">8</b><span>tutorial lessons</span></div></div>
+    <div class="ctas">
+      <a class="play" href="https://lvxcas.github.io/pixel-poker/">Play it <span aria-hidden="true">&#8594;</span></a>
+      <div class="plinks"><a href="https://github.com/LVXCAS/pixel-poker">Source</a></div>
+    </div>
+  </div>
+</div>
+</section>
+</section>
 
-<h2 id="findings">Findings</h2>
-<article class="row" id="001">
+<section class="block" aria-labelledby="projects">
+<div class="wrap">
+<h2 class="sec" id="projects" data-r><span class="no">02</span><span>Everything else</span></h2>
+<div class="lhead" aria-hidden="true"><span>No.</span><span>Project</span><span>Period</span><span>Commits mine / total</span></div>
+<ol class="ledger">
+<li class="lrow" data-r><div class="lno">01<span class="cv">2 caveats</span></div><div class="lmain"><h3>ATLAS <span class="priv">private</span></h3><p>Quantitative research engine. Strategy search, backtesting, and a multiple-testing gauntlet.</p><p class="st"><span class="k">Status</span> Paper account. It has never sent an order.</p><ul class="ev"><li>12 months of commits, counted from the atlas-prop-trading branch</li><li>5 CI workflows</li><li>370 test files, counting tracked files named test_*.py</li><li class="caveat"><span class="vh">Caveat: </span>lives on GitHub as the private monorepo atlas-aurtoria. Its main branch is 127 commits, most of them a README bot.</li><li class="caveat"><span class="vh">Caveat: </span>my local clone is 28 commits ahead of what is counted here</li></ul></div><div class="lper"><span class="vh">Period </span>2025-08&#8211;2026-08</div><div class="lcount"><span class="cm"><b class="count">1,805</b><span class="sl"> / </span><span class="tot count">1,813</span></span><span class="bar" aria-hidden="true"><i style="--r:0.9956"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">02<span class="cv">1 caveat</span></div><div class="lmain"><h3>AtlasRisk <span class="priv">private</span></h3><p>Simulation-only risk analysis. Multi-agent reasoning over market snapshots, disagreement detection, a veto layer, and a logged decision trace for every call.</p><p class="st"><span class="k">Status</span> 170 commits in 17 days, then nothing. It never connected to a broker, by design.</p><ul class="ev"><li>about 805 KB of Python, per the GitHub languages API</li><li class="caveat"><span class="vh">Caveat: </span>private, so none of this is checkable from outside</li></ul></div><div class="lper"><span class="vh">Period </span>2026-01&#8211;2026-02</div><div class="lcount"><span class="cm"><b class="count">170</b><span class="sl"> / </span><span class="tot count">170</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">03<span class="cv">2 caveats</span></div><div class="lmain"><h3>atlas-ninja-ict <span class="priv">private</span></h3><p>NinjaTrader 8 indicators in C# that draw the ATLAS ICT setups, entry, stop and target, on a chart for manual execution. A port of the Rust live-engine strategy.</p><p class="st"><span class="k">Status</span> Three commits. It draws signals and never places an order.</p><ul class="ev"><li>2 indicators, about 49 KB of C#</li><li class="caveat"><span class="vh">Caveat: </span>private, so none of this is checkable from outside</li><li class="caveat"><span class="vh">Caveat: </span>that the port matches the Rust source is my claim. Nobody outside has diffed them.</li></ul></div><div class="lper"><span class="vh">Period </span>2026-06&#8211;2026-07</div><div class="lcount"><span class="cm"><b class="count">3</b><span class="sl"> / </span><span class="tot count">3</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">04</div><div class="lmain"><h3><a href="https://github.com/LVXCAS/gdrive-odoo-sync">gdrive-odoo-sync</a></h3><p>Odoo 18 addon that stages every Google Drive spreadsheet tab and verifies parity between Drive and Odoo.</p><p class="st"><span class="k">Status</span> Documents a service-account Drive quota trap that is not in the vendor docs.</p><ul class="ev"><li>23 test files</li></ul></div><div class="lper"><span class="vh">Period </span>2026-08</div><div class="lcount"><span class="cm"><b class="count">3</b><span class="sl"> / </span><span class="tot count">10</span></span><span class="bar" aria-hidden="true"><i style="--r:0.3000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">05<span class="cv">3 caveats</span></div><div class="lmain"><h3><a href="https://github.com/LVXCAS/AIMUX">AIMUX</a></h3><p>Rust fork of OpenAI Codex adding a Chat-Completions bridge for Claude, Gemini, and Mistral.</p><p class="st"><span class="k">Status</span> A working fork, not a working product.</p><ul class="ev"><li class="caveat"><span class="vh">Caveat: </span>most commit history is inherited from the upstream fork</li><li class="caveat"><span class="vh">Caveat: </span>never run against a live API key</li><li class="caveat"><span class="vh">Caveat: </span>&quot;compiles and runs&quot; is my own claim, not a published build</li></ul></div><div class="lper"><span class="vh">Period </span>2026-06&#8211;2026-08</div><div class="lcount"><span class="cm"><b class="count">8</b><span class="sl"> / </span><span class="tot count">7,907</span></span><span class="bar" aria-hidden="true"><i style="--r:0.0010"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">06<span class="cv">1 caveat</span></div><div class="lmain"><h3>wholesale-os <span class="priv">private — not linkable</span></h3><p>Real-estate deal sourcing for Clark County. Next.js and PostGIS, with distress scoring over parcel data.</p><p class="st"><span class="k">Status</span> Two commits, but the data path was tested against the real county API.</p><ul class="ev"><li class="caveat"><span class="vh">Caveat: </span>private, so none of this is checkable from outside</li></ul></div><div class="lper"><span class="vh">Period </span>2026-06&#8211;2026-08</div><div class="lcount"><span class="cm"><b class="count">2</b><span class="sl"> / </span><span class="tot count">2</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">07<span class="cv">1 caveat</span></div><div class="lmain"><h3><a href="https://github.com/LVXCAS/Solana">Solana</a></h3><p>CLI for creating SPL tokens with anti-rug protections.</p><p class="st"><span class="k">Status</span> Built over three days in February and not touched since. No recorded on-chain use.</p><ul class="ev"><li>1,973 lines</li><li class="caveat"><span class="vh">Caveat: </span>no tests</li></ul></div><div class="lper"><span class="vh">Period </span>2026-02</div><div class="lcount"><span class="cm"><b class="count">50</b><span class="sl"> / </span><span class="tot count">50</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">08</div><div class="lmain"><h3><a href="https://github.com/LVXCAS/CyberSec-Mini-Capstone">CyberSec-Mini-Capstone</a></h3><p>School capstone. Agent orchestration with a scored skills system.</p><p class="st"><span class="k">Status</span> Coursework, finished and graded.</p><ul class="ev"><li>6,239 lines</li><li>4 test files</li></ul></div><div class="lper"><span class="vh">Period </span>2026-04</div><div class="lcount"><span class="cm"><b class="count">66</b><span class="sl"> / </span><span class="tot count">66</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">09<span class="cv">2 caveats</span></div><div class="lmain"><h3><a href="https://github.com/LVXCAS/ATLAS-Presidential-AI-Challenge">ATLAS-Presidential-AI-Challenge</a></h3><p>Presidential AI Challenge, Track II entry, built with a teammate. A simulation-only risk-literacy tool for students that labels synthetic market stress windows by risk level and explains why.</p><p class="st"><span class="k">Status</span> Submitted January 2026. It has a demo page and a four-minute video.</p><ul class="ev"><li class="caveat"><span class="vh">Caveat: </span>no price prediction, no trades, no API keys, by design</li><li class="caveat"><span class="vh">Caveat: </span>the rest of the commits are my teammate&#x27;s</li></ul><div class="plinks"><a href="https://lvxcas.github.io/ATLAS-Presidential-AI-Challenge/">Demo</a></div></div><div class="lper"><span class="vh">Period </span>2025-08&#8211;2026-01</div><div class="lcount"><span class="cm"><b class="count">50</b><span class="sl"> / </span><span class="tot count">59</span></span><span class="bar" aria-hidden="true"><i style="--r:0.8475"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">10<span class="cv">1 caveat</span></div><div class="lmain"><h3>peptide-shop <span class="priv">private — not linkable</span></h3><p>Research-use-only storefront built with a compliance layer first: banned-claim wordlist, age gate, and enforced disclaimers.</p><p class="st"><span class="k">Status</span> Two commits. The compliance layer is the interesting part.</p><ul class="ev"><li class="caveat"><span class="vh">Caveat: </span>private, so none of this is checkable from outside</li></ul></div><div class="lper"><span class="vh">Period </span>2026-05&#8211;2026-08</div><div class="lcount"><span class="cm"><b class="count">2</b><span class="sl"> / </span><span class="tot count">2</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">11</div><div class="lmain"><h3><a href="https://github.com/LVXCAS/stingyclaude">stingyclaude</a></h3><p>Claude Code skill that routes each task to the cheapest model that can finish it.</p><p class="st"><span class="k">Status</span> Three commits, one afternoon. It has one GitHub star.</p><ul class="ev"><li>40 lines</li></ul></div><div class="lper"><span class="vh">Period </span>2026-05</div><div class="lcount"><span class="cm"><b class="count">3</b><span class="sl"> / </span><span class="tot count">3</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">12<span class="cv">2 caveats</span></div><div class="lmain"><h3>HiveTrading <span class="priv">private</span></h3><p>Bloomberg-terminal-styled trading stack. FastAPI, React, TimescaleDB, Redis, Grafana and Jaeger, all in Docker Compose.</p><p class="st"><span class="k">Status</span> Abandoned after three weeks. It is where ATLAS started.</p><ul class="ev"><li class="caveat"><span class="vh">Caveat: </span>4 of the 16 commits are a teammate&#x27;s, and 1 is committed as &quot;Claude Code Assistant&quot;</li><li class="caveat"><span class="vh">Caveat: </span>its README calls it &quot;professional-grade&quot; and &quot;autonomous&quot;. It was neither.</li></ul></div><div class="lper"><span class="vh">Period </span>2025-08&#8211;2025-09</div><div class="lcount"><span class="cm"><b class="count">11</b><span class="sl"> / </span><span class="tot count">16</span></span><span class="bar" aria-hidden="true"><i style="--r:0.6875"></i></span><span class="lbl">commits mine / total</span></div></li>
+<li class="lrow" data-r><div class="lno">13<span class="cv">1 caveat</span></div><div class="lmain"><h3><a href="https://github.com/LVXCAS/Wholesaling-Agents-">Wholesaling-Agents-</a></h3><p>Early agent experiment for real-estate lead triage.</p><p class="st"><span class="k">Status</span> Abandoned. Preceded by Real-Estate-Project, three private commits in June 2025, and superseded by wholesale-os.</p><ul class="ev"><li class="caveat"><span class="vh">Caveat: </span>about 150,000 lines, but 4 bulk commits. Read the history, not the line count.</li></ul></div><div class="lper"><span class="vh">Period </span>2025-08</div><div class="lcount"><span class="cm"><b class="count">4</b><span class="sl"> / </span><span class="tot count">4</span></span><span class="bar" aria-hidden="true"><i style="--r:1.0000"></i></span><span class="lbl">commits mine / total</span></div></li>
+</ol>
+<p class="note">Three other repositories on my GitHub account (<code>odoo</code>, <code>dexter-</code> and <code>AIdvisor-Presidential-AI-Challenge-25-26</code>) are forks of other people&#x27;s work and are not mine.</p>
+</div>
+</section>
+
+<section class="block" aria-labelledby="findings">
+<div class="wrap">
+<h2 class="sec" id="findings" data-r><span class="no">03</span><span>Findings</span></h2>
+<div class="nb" data-line>
+<article class="row" id="001" data-r>
 <div class="prose">
 <div class="tomb"><b>001</b> &#160; 2026-08 &#160; <span class="verdict">FOUND NOTHING</span><br>
   Apparatus &#160; ATLAS / atlas-dartboard</div>
@@ -83,24 +133,24 @@ best   <b>1.34</b>
 E[best] 1.74
 RC p   1.000</div>
 </article>
-<figure>
+<figure class="fig census" data-r>
   <svg class="strip" viewBox="-8 -22 1030 166" role="img" aria-label="The 5,423 strategy variants ordered by Sharpe ratio. The highest sits below a dashed line marking the best result expected from pure noise.">
-    <polygon points="0.0,75.0 0.0,129.3 4.8,117.1 9.59,114.3 14.39,112.1 19.18,109.8 23.98,108.2 28.77,106.8 33.57,105.7 38.36,104.8 43.16,103.9 47.95,103.1 52.75,102.3 57.54,101.5 62.34,100.9 67.13,100.1 71.93,99.5 76.72,98.8 81.52,98.3 86.32,97.8 91.11,97.4 95.91,96.7 100.7,96.3 105.5,95.9 110.29,95.6 115.09,95.1 119.88,94.7 124.68,94.3 129.47,93.6 134.27,93.3 139.06,93.1 143.86,92.7 148.65,92.4 153.45,92.0 158.24,91.7 163.04,91.4 167.83,91.0 172.63,90.8 177.43,90.6 182.22,90.2 187.02,90.0 191.81,89.6 196.61,89.3 201.4,89.0 206.2,88.7 210.99,88.5 215.79,88.3 220.58,87.9 225.38,87.7 230.17,87.5 234.97,87.2 239.76,86.9 244.56,86.6 249.35,86.4 254.15,86.1 258.95,85.9 263.74,85.7 268.54,85.4 273.33,85.2 278.13,85.0 282.92,84.7 287.72,84.5 292.51,84.3 297.31,84.0 302.1,83.7 306.9,83.5 311.69,83.3 316.49,83.1 321.28,82.9 326.08,82.6 330.87,82.4 335.67,82.2 340.46,81.9 345.26,81.6 350.06,81.4 354.85,81.2 359.65,80.9 364.44,80.7 369.24,80.4 374.03,80.3 378.83,80.1 383.62,79.8 388.42,79.6 393.21,79.5 398.01,79.3 402.8,79.1 407.6,78.9 412.39,78.7 417.19,78.5 421.98,78.2 426.78,77.9 431.58,77.8 436.37,77.6 441.17,77.3 445.96,77.1 450.76,76.8 455.55,76.7 460.35,76.5 465.14,76.4 469.94,76.2 474.73,76.1 479.53,75.9 484.32,75.7 489.12,75.6 493.91,75.3 498.71,75.1 503.5,74.9 508.3,74.8 513.09,74.6 517.89,74.4 522.69,74.2 527.48,74.1 532.28,73.9 537.07,73.7 541.87,73.5 546.66,73.4 551.46,73.2 556.25,73.0 561.05,72.8 565.84,72.6 570.64,72.4 575.43,72.3 580.23,72.2 585.02,71.9 589.82,71.7 594.61,71.5 599.41,71.4 604.21,71.2 609.0,71.0 613.8,70.8 618.59,70.6 623.39,70.4 628.18,70.2 632.98,70.1 637.77,69.8 642.57,69.6 647.36,69.3 652.16,69.2 656.95,69.0 661.75,68.7 666.54,68.5 671.34,68.4 676.13,68.2 680.93,68.0 685.72,67.8 690.52,67.6 695.32,67.5 700.11,67.3 704.91,67.1 709.7,66.9 714.5,66.7 719.29,66.5 724.09,66.3 728.88,66.1 733.68,65.9 738.47,65.6 743.27,65.4 748.06,65.2 752.86,65.0 757.65,64.7 762.45,64.5 767.24,64.3 772.04,64.0 776.84,63.7 781.63,63.5 786.43,63.3 791.22,63.0 796.02,62.8 800.81,62.5 805.61,62.4 810.4,62.2 815.2,61.9 819.99,61.6 824.79,61.3 829.58,61.0 834.38,60.8 839.17,60.5 843.97,60.3 848.76,60.0 853.56,59.6 858.35,59.4 863.15,59.0 867.95,58.8 872.74,58.4 877.54,58.0 882.33,57.7 887.13,57.4 891.92,57.2 896.72,56.8 901.51,56.5 906.31,56.1 911.1,55.5 915.9,54.9 920.69,54.4 925.49,54.0 930.28,53.7 935.08,53.0 939.87,52.3 944.67,51.9 949.47,51.3 954.26,50.7 959.06,50.0 963.85,48.9 968.65,48.2 973.44,46.8 978.24,45.5 983.03,44.2 987.83,42.1 992.62,39.3 997.42,35.0 1000.0,22.1 1000.0,75.0" fill="var(--ink-muted)" fill-opacity="0.4"/>
-    <polyline points="0.0,75.0 0.0,129.3 4.8,117.1 9.59,114.3 14.39,112.1 19.18,109.8 23.98,108.2 28.77,106.8 33.57,105.7 38.36,104.8 43.16,103.9 47.95,103.1 52.75,102.3 57.54,101.5 62.34,100.9 67.13,100.1 71.93,99.5 76.72,98.8 81.52,98.3 86.32,97.8 91.11,97.4 95.91,96.7 100.7,96.3 105.5,95.9 110.29,95.6 115.09,95.1 119.88,94.7 124.68,94.3 129.47,93.6 134.27,93.3 139.06,93.1 143.86,92.7 148.65,92.4 153.45,92.0 158.24,91.7 163.04,91.4 167.83,91.0 172.63,90.8 177.43,90.6 182.22,90.2 187.02,90.0 191.81,89.6 196.61,89.3 201.4,89.0 206.2,88.7 210.99,88.5 215.79,88.3 220.58,87.9 225.38,87.7 230.17,87.5 234.97,87.2 239.76,86.9 244.56,86.6 249.35,86.4 254.15,86.1 258.95,85.9 263.74,85.7 268.54,85.4 273.33,85.2 278.13,85.0 282.92,84.7 287.72,84.5 292.51,84.3 297.31,84.0 302.1,83.7 306.9,83.5 311.69,83.3 316.49,83.1 321.28,82.9 326.08,82.6 330.87,82.4 335.67,82.2 340.46,81.9 345.26,81.6 350.06,81.4 354.85,81.2 359.65,80.9 364.44,80.7 369.24,80.4 374.03,80.3 378.83,80.1 383.62,79.8 388.42,79.6 393.21,79.5 398.01,79.3 402.8,79.1 407.6,78.9 412.39,78.7 417.19,78.5 421.98,78.2 426.78,77.9 431.58,77.8 436.37,77.6 441.17,77.3 445.96,77.1 450.76,76.8 455.55,76.7 460.35,76.5 465.14,76.4 469.94,76.2 474.73,76.1 479.53,75.9 484.32,75.7 489.12,75.6 493.91,75.3 498.71,75.1 503.5,74.9 508.3,74.8 513.09,74.6 517.89,74.4 522.69,74.2 527.48,74.1 532.28,73.9 537.07,73.7 541.87,73.5 546.66,73.4 551.46,73.2 556.25,73.0 561.05,72.8 565.84,72.6 570.64,72.4 575.43,72.3 580.23,72.2 585.02,71.9 589.82,71.7 594.61,71.5 599.41,71.4 604.21,71.2 609.0,71.0 613.8,70.8 618.59,70.6 623.39,70.4 628.18,70.2 632.98,70.1 637.77,69.8 642.57,69.6 647.36,69.3 652.16,69.2 656.95,69.0 661.75,68.7 666.54,68.5 671.34,68.4 676.13,68.2 680.93,68.0 685.72,67.8 690.52,67.6 695.32,67.5 700.11,67.3 704.91,67.1 709.7,66.9 714.5,66.7 719.29,66.5 724.09,66.3 728.88,66.1 733.68,65.9 738.47,65.6 743.27,65.4 748.06,65.2 752.86,65.0 757.65,64.7 762.45,64.5 767.24,64.3 772.04,64.0 776.84,63.7 781.63,63.5 786.43,63.3 791.22,63.0 796.02,62.8 800.81,62.5 805.61,62.4 810.4,62.2 815.2,61.9 819.99,61.6 824.79,61.3 829.58,61.0 834.38,60.8 839.17,60.5 843.97,60.3 848.76,60.0 853.56,59.6 858.35,59.4 863.15,59.0 867.95,58.8 872.74,58.4 877.54,58.0 882.33,57.7 887.13,57.4 891.92,57.2 896.72,56.8 901.51,56.5 906.31,56.1 911.1,55.5 915.9,54.9 920.69,54.4 925.49,54.0 930.28,53.7 935.08,53.0 939.87,52.3 944.67,51.9 949.47,51.3 954.26,50.7 959.06,50.0 963.85,48.9 968.65,48.2 973.44,46.8 978.24,45.5 983.03,44.2 987.83,42.1 992.62,39.3 997.42,35.0 1000.0,22.1 1000.0,75.0" fill="none" stroke="var(--ink-muted)" stroke-width="1.4" stroke-linejoin="round"/>
+    <polygon class="mass" points="0.0,75.0 0.0,129.3 4.8,117.1 9.59,114.3 14.39,112.1 19.18,109.8 23.98,108.2 28.77,106.8 33.57,105.7 38.36,104.8 43.16,103.9 47.95,103.1 52.75,102.3 57.54,101.5 62.34,100.9 67.13,100.1 71.93,99.5 76.72,98.8 81.52,98.3 86.32,97.8 91.11,97.4 95.91,96.7 100.7,96.3 105.5,95.9 110.29,95.6 115.09,95.1 119.88,94.7 124.68,94.3 129.47,93.6 134.27,93.3 139.06,93.1 143.86,92.7 148.65,92.4 153.45,92.0 158.24,91.7 163.04,91.4 167.83,91.0 172.63,90.8 177.43,90.6 182.22,90.2 187.02,90.0 191.81,89.6 196.61,89.3 201.4,89.0 206.2,88.7 210.99,88.5 215.79,88.3 220.58,87.9 225.38,87.7 230.17,87.5 234.97,87.2 239.76,86.9 244.56,86.6 249.35,86.4 254.15,86.1 258.95,85.9 263.74,85.7 268.54,85.4 273.33,85.2 278.13,85.0 282.92,84.7 287.72,84.5 292.51,84.3 297.31,84.0 302.1,83.7 306.9,83.5 311.69,83.3 316.49,83.1 321.28,82.9 326.08,82.6 330.87,82.4 335.67,82.2 340.46,81.9 345.26,81.6 350.06,81.4 354.85,81.2 359.65,80.9 364.44,80.7 369.24,80.4 374.03,80.3 378.83,80.1 383.62,79.8 388.42,79.6 393.21,79.5 398.01,79.3 402.8,79.1 407.6,78.9 412.39,78.7 417.19,78.5 421.98,78.2 426.78,77.9 431.58,77.8 436.37,77.6 441.17,77.3 445.96,77.1 450.76,76.8 455.55,76.7 460.35,76.5 465.14,76.4 469.94,76.2 474.73,76.1 479.53,75.9 484.32,75.7 489.12,75.6 493.91,75.3 498.71,75.1 503.5,74.9 508.3,74.8 513.09,74.6 517.89,74.4 522.69,74.2 527.48,74.1 532.28,73.9 537.07,73.7 541.87,73.5 546.66,73.4 551.46,73.2 556.25,73.0 561.05,72.8 565.84,72.6 570.64,72.4 575.43,72.3 580.23,72.2 585.02,71.9 589.82,71.7 594.61,71.5 599.41,71.4 604.21,71.2 609.0,71.0 613.8,70.8 618.59,70.6 623.39,70.4 628.18,70.2 632.98,70.1 637.77,69.8 642.57,69.6 647.36,69.3 652.16,69.2 656.95,69.0 661.75,68.7 666.54,68.5 671.34,68.4 676.13,68.2 680.93,68.0 685.72,67.8 690.52,67.6 695.32,67.5 700.11,67.3 704.91,67.1 709.7,66.9 714.5,66.7 719.29,66.5 724.09,66.3 728.88,66.1 733.68,65.9 738.47,65.6 743.27,65.4 748.06,65.2 752.86,65.0 757.65,64.7 762.45,64.5 767.24,64.3 772.04,64.0 776.84,63.7 781.63,63.5 786.43,63.3 791.22,63.0 796.02,62.8 800.81,62.5 805.61,62.4 810.4,62.2 815.2,61.9 819.99,61.6 824.79,61.3 829.58,61.0 834.38,60.8 839.17,60.5 843.97,60.3 848.76,60.0 853.56,59.6 858.35,59.4 863.15,59.0 867.95,58.8 872.74,58.4 877.54,58.0 882.33,57.7 887.13,57.4 891.92,57.2 896.72,56.8 901.51,56.5 906.31,56.1 911.1,55.5 915.9,54.9 920.69,54.4 925.49,54.0 930.28,53.7 935.08,53.0 939.87,52.3 944.67,51.9 949.47,51.3 954.26,50.7 959.06,50.0 963.85,48.9 968.65,48.2 973.44,46.8 978.24,45.5 983.03,44.2 987.83,42.1 992.62,39.3 997.42,35.0 1000.0,22.1 1000.0,75.0" fill="var(--ink-muted)" fill-opacity="0.4"/>
+    <polyline class="trace" pathLength="1" points="0.0,75.0 0.0,129.3 4.8,117.1 9.59,114.3 14.39,112.1 19.18,109.8 23.98,108.2 28.77,106.8 33.57,105.7 38.36,104.8 43.16,103.9 47.95,103.1 52.75,102.3 57.54,101.5 62.34,100.9 67.13,100.1 71.93,99.5 76.72,98.8 81.52,98.3 86.32,97.8 91.11,97.4 95.91,96.7 100.7,96.3 105.5,95.9 110.29,95.6 115.09,95.1 119.88,94.7 124.68,94.3 129.47,93.6 134.27,93.3 139.06,93.1 143.86,92.7 148.65,92.4 153.45,92.0 158.24,91.7 163.04,91.4 167.83,91.0 172.63,90.8 177.43,90.6 182.22,90.2 187.02,90.0 191.81,89.6 196.61,89.3 201.4,89.0 206.2,88.7 210.99,88.5 215.79,88.3 220.58,87.9 225.38,87.7 230.17,87.5 234.97,87.2 239.76,86.9 244.56,86.6 249.35,86.4 254.15,86.1 258.95,85.9 263.74,85.7 268.54,85.4 273.33,85.2 278.13,85.0 282.92,84.7 287.72,84.5 292.51,84.3 297.31,84.0 302.1,83.7 306.9,83.5 311.69,83.3 316.49,83.1 321.28,82.9 326.08,82.6 330.87,82.4 335.67,82.2 340.46,81.9 345.26,81.6 350.06,81.4 354.85,81.2 359.65,80.9 364.44,80.7 369.24,80.4 374.03,80.3 378.83,80.1 383.62,79.8 388.42,79.6 393.21,79.5 398.01,79.3 402.8,79.1 407.6,78.9 412.39,78.7 417.19,78.5 421.98,78.2 426.78,77.9 431.58,77.8 436.37,77.6 441.17,77.3 445.96,77.1 450.76,76.8 455.55,76.7 460.35,76.5 465.14,76.4 469.94,76.2 474.73,76.1 479.53,75.9 484.32,75.7 489.12,75.6 493.91,75.3 498.71,75.1 503.5,74.9 508.3,74.8 513.09,74.6 517.89,74.4 522.69,74.2 527.48,74.1 532.28,73.9 537.07,73.7 541.87,73.5 546.66,73.4 551.46,73.2 556.25,73.0 561.05,72.8 565.84,72.6 570.64,72.4 575.43,72.3 580.23,72.2 585.02,71.9 589.82,71.7 594.61,71.5 599.41,71.4 604.21,71.2 609.0,71.0 613.8,70.8 618.59,70.6 623.39,70.4 628.18,70.2 632.98,70.1 637.77,69.8 642.57,69.6 647.36,69.3 652.16,69.2 656.95,69.0 661.75,68.7 666.54,68.5 671.34,68.4 676.13,68.2 680.93,68.0 685.72,67.8 690.52,67.6 695.32,67.5 700.11,67.3 704.91,67.1 709.7,66.9 714.5,66.7 719.29,66.5 724.09,66.3 728.88,66.1 733.68,65.9 738.47,65.6 743.27,65.4 748.06,65.2 752.86,65.0 757.65,64.7 762.45,64.5 767.24,64.3 772.04,64.0 776.84,63.7 781.63,63.5 786.43,63.3 791.22,63.0 796.02,62.8 800.81,62.5 805.61,62.4 810.4,62.2 815.2,61.9 819.99,61.6 824.79,61.3 829.58,61.0 834.38,60.8 839.17,60.5 843.97,60.3 848.76,60.0 853.56,59.6 858.35,59.4 863.15,59.0 867.95,58.8 872.74,58.4 877.54,58.0 882.33,57.7 887.13,57.4 891.92,57.2 896.72,56.8 901.51,56.5 906.31,56.1 911.1,55.5 915.9,54.9 920.69,54.4 925.49,54.0 930.28,53.7 935.08,53.0 939.87,52.3 944.67,51.9 949.47,51.3 954.26,50.7 959.06,50.0 963.85,48.9 968.65,48.2 973.44,46.8 978.24,45.5 983.03,44.2 987.83,42.1 992.62,39.3 997.42,35.0 1000.0,22.1 1000.0,75.0" fill="none" stroke="var(--ink-muted)" stroke-width="1.4" stroke-linejoin="round"/>
     <line x1="0" y1="75.0" x2="1000" y2="75.0" stroke="var(--rule)" stroke-width="1"/>
-    <line x1="0" y1="6.3" x2="1000" y2="6.3" stroke="var(--erratum)" stroke-width="1" stroke-dasharray="6 5"/>
-    <text x="0" y="1.3" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--erratum)">best expected from pure noise &#160;1.74</text>
-    <line x1="1000" y1="75.0" x2="1000" y2="22.1" stroke="var(--erratum)" stroke-width="3"/>
-    <text x="992" y="17.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="9" fill="var(--erratum)">best actual 1.34</text>
-    <text x="0" y="137" font-family="IBM Plex Mono, monospace" font-size="8" fill="var(--ink-muted)">Sharpe 0.00</text>
-    <text x="1000" y="137" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="8" fill="var(--ink-muted)">rank 5,423</text>
+    <line class="noise" x1="0" y1="6.3" x2="1000" y2="6.3" stroke="var(--erratum)" stroke-width="1" stroke-dasharray="6 5"/>
+    <text x="0" y="1.3" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--erratum)">best expected from pure noise &#160;1.74</text>
+    <line class="best" x1="1000" y1="75.0" x2="1000" y2="22.1" stroke="var(--erratum)" stroke-width="3"/>
+    <text x="992" y="17.1" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="13" fill="var(--erratum)">best actual 1.34</text>
+    <text x="0" y="137" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-muted)">Sharpe 0.00</text>
+    <text x="1000" y="137" text-anchor="end" font-family="IBM Plex Mono, monospace" font-size="12" fill="var(--ink-muted)">rank 5,423</text>
   </svg>
   <figcaption>Every variant tested, ordered by Sharpe, each occupying one column of the 5,423.
   At page width they merge into a single mass, and the mass is the argument: that is the size of
   the search. Of the 5,423, 4,620 scored. The dashed line is the best
   score 4,620 no-skill strategies would be expected to reach on their own; the red mark at the right is the best score actually achieved. It falls below the
   line. The shape here is provisional: it is drawn from a distribution matching the reported statistics, not from the 5,423 recorded values. Drop those into <code>content/data/dartboard_sharpes.txt</code> and rebuild to replace it.</figcaption>
-</figure><article class="row" id="002">
+</figure><article class="row" id="002" data-r>
 <div class="prose">
 <div class="tomb"><b>002</b> &#160; 2026-07 &#160; <span class="verdict">UNDERPERFORMED</span><br>
   Apparatus &#160; ATLAS / atlas-overnight</div>
@@ -114,7 +164,7 @@ B&amp;H   10.95%
 Sharpe  0.66
 maxDD  -10.4%</div>
 </article>
-<figure>
+<figure class="fig" data-r>
 <div class="wide"><table>
   <thead><tr><th>Track</th><th class="num">CAGR</th><th class="num">Sharpe</th><th class="num">Max DD</th><th class="num">Nights</th></tr></thead>
   <tbody>
@@ -124,9 +174,15 @@ maxDD  -10.4%</div>
 </table></div>
 <figcaption>Sorted by the variable under test rather than by date.</figcaption>
 </figure>
+</div>
+</div>
+</section>
 
-<h2 id="errata">Errata</h2>
-<article class="row" id="E001">
+<section class="block" aria-labelledby="errata">
+<div class="wrap">
+<h2 class="sec" id="errata" data-r><span class="no">04</span><span>Errata</span></h2>
+<div class="nb" data-line>
+<article class="row erratum" id="E001" data-r>
 <div class="prose">
 <div class="tomb"><b>E001</b> &#160; 2026-09-01 &#160; <span class="verdict ret">RETRACTED</span><br>
   Corrects &#160; ATLAS/README.md, as published</div>
@@ -139,7 +195,7 @@ maxDD  -10.4%</div>
 <div class="rail"><b>3</b> claims struck
 <b>0</b> supported</div>
 </article>
-<article class="row" id="E002">
+<article class="row erratum" id="E002" data-r>
 <div class="prose">
 <div class="tomb"><b>E002</b> &#160; 2026-09-03 &#160; <span class="verdict ret">RETRACTED</span><br>
   Corrects &#160; this page, as first published on 2026-09-01</div>
@@ -152,17 +208,20 @@ maxDD  -10.4%</div>
 <b>2</b> now read, not typed</div>
 </article>
 
+</div>
+</div>
+</section>
+</main>
 
 <footer class="colophon">
-Every entry: claim &#8594; method &#8594; evidence &#8594; verdict, in that order.<br>
+<div class="wrap">
+<p>Every entry: claim &#8594; method &#8594; evidence &#8594; verdict, in that order.<br>
 Commit counts for public repositories are read from the GitHub API when this page is built.<br>
 Counts for private repositories are read the same way, through my own token, so you cannot check them.<br>
-Nothing is deleted. Errors are struck, dated, and left legible.<br>
-Set in IBM Plex Serif and IBM Plex Mono, self-hosted. No JavaScript.
-<a href="https://github.com/LVXCAS">GitHub</a> &#183; <a href="mailto:lucasoghigian@gmail.com">lucasoghigian@gmail.com</a><br>
-Built 2026-09-03.
+Nothing is deleted. Errors are struck, dated, and left legible.</p>
+<p>Set in IBM Plex Serif and IBM Plex Mono, self-hosted. One small script for motion and the theme switch; with it off, the page reads the same.<br>
+<a href="https://github.com/LVXCAS">GitHub</a> &#183; <a href="mailto:lucasoghigian@gmail.com">lucasoghigian@gmail.com</a> &#183; Built 2026-10-15.</p>
+</div>
 </footer>
-
-</main>
 </body>
 </html>

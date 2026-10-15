@@ -1,6 +1,6 @@
 # lvxcas.github.io
 
-Personal site. Static, no JavaScript, no framework. Served by GitHub Pages.
+Personal site. Static, no framework, one small vanilla script for motion. Served by GitHub Pages.
 
 ## How it works
 
@@ -51,10 +51,28 @@ without rendering a link to it.
 
 ## Design
 
-The reasoning behind every value — typeface, contrast ratio, measure, the rail,
-what was deliberately left out — is in `research/DESIGN-SPEC.md`, kept locally and gitignored by default.
+A lab notebook that is alive: paper, ink, and one red pencil for corrections.
+The original reasoning behind the type, contrast, measure and the rail is in
+`research/DESIGN-SPEC.md`, kept locally and gitignored by default.
 
-Budget: under 100KB total. Currently about 62KB, of which 41KB is fonts.
+- **Plates.** The playable projects (`voidbreaker`, `pixel-poker`) are full-bleed
+  plates in the colours of their own subjects, configured in `PLATES` in
+  `build.py`. A project named there is shown as a plate and left out of the
+  ledger. voidbreaker's palette is the literal RGB from its `config.py`;
+  pixel-poker's is sampled from its table screenshots.
+- **Ledger.** Every other project is a row with its period, its `mine / total`
+  commit counts, and a bar whose filled share is `mine`. Caveats (`!` lines)
+  get a red mark and are counted per row.
+- **Motion.** `motion.js` (vanilla, no library) reveals sections on scroll,
+  counts numbers up to the value already in the HTML, fills the commit bars,
+  rules the notebook rail, stamps verdicts, traces the census figure and draws
+  each erratum's strike-through. Everything starts from its final state in the
+  HTML, so with JavaScript off or `prefers-reduced-motion: reduce` the page is
+  complete and still. The script also adds a light/dark switch (saved in
+  `localStorage`); without it the page follows the system theme.
+
+Budget: first load (HTML, CSS, JS, fonts) under 250KB. Currently about 106KB,
+of which 41KB is fonts. The screenshots (about 133KB) are lazy-loaded on top.
 
 ## Local preview
 
